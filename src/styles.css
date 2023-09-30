@@ -1,1 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap-icons";
+
+/* || UTILITY CLASSES */
+
+.overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.center {
+  align-self: center;
+}
+
+.card-image {
+  width: 50%;
+  height: auto;
+}
+
+/* || GENERAL STYLES */
+
+/* | GENERAL CLASSES */
+
+.white-png {
+  filter: brightness(0) invert(1);
+}
+
+/* | MAIN-PROFILE */
+
+.main__profile {
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+}
+
+/* | MAIN-PROFILE-HEADER */
+
+.section__profile {
+  display: flex;
+  /* flex-wrap: wrap; */
+}
+
+.section__profile .card {
+  margin-left: 1rem;
+}
+
+@media screen and (max-width: 1081px) {
+  .section__profile {
+    flex-wrap: wrap;
+  }
+  .section__profile img {
+    margin: auto;
+  }
+}
+
+/* | MAIN-PROFILE-MAIN */
+
+.main__profile__main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.friends {
+  margin-top: 1rem;
+}
+
+.friends__section {
+  border: var(--BORDER_ALT);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.friends__card {
+  text-align: center;
+}

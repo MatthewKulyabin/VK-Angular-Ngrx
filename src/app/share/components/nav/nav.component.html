@@ -1,0 +1,26 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark h-100">
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+  >
+    <span class="fs-4">Home</span>
+  </a>
+  <hr />
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li>
+      <a routerLink="/profile" [class]="getClass('/profile')"> Profile </a>
+    </li>
+    <li>
+      <a routerLink="/login" [class]="getClass('login')"> Login </a>
+    </li>
+    <li>
+      <a routerLink="/signup" [class]="getClass('signup')"> SignUp </a>
+    </li>
+    <!-- <li>
+      <a routerLink="#" [class]="getClass()"> Products </a>
+    </li>
+    <li>
+      <a href="#" [class]="getClass()"> Customers </a>
+    </li> -->
+  </ul>
+</div>

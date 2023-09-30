@@ -1,0 +1,117 @@
+<section *ngIf="!(postsIsLoading$ | async)" class="d-flex flex-column">
+  <button
+    id="addPost"
+    class="btn btn-dark p-3 mb-3"
+    (click)="openModal = true; this.postFormMethod = 'ADD'"
+  >
+    Add Post
+  </button>
+  <div class="modal fade mt-5" [ngClass]="openModal ? 'show d-block' : ''">
+    <div class="modal-dialog modal-xl">
+      <div
+        class="modal-content border border-dark rounded"
+        style="box-shadow: 0 0 75px black"
+      >
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">New Post</h1>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="postForm" novalidate (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="title" class="col-form-label"> Title: </label>
+              <input
+                type="text"
+                formControlName="title"
+                [classList]="[
+                  'form-control ',
+                  postForm.get('title')?.invalid
+                    ? 'border border-danger'
+                    : 'border border-info'
+                ]"
+                id="title"
+                placeholder="title..."
+              />
+              <span
+                *ngIf="postForm.get('title')?.hasError('required')"
+                class="text-danger"
+              >
+                Title is Required
+              </span>
+              <span
+                *ngIf="postForm.get('title')?.hasError('maxlength')"
+                class="text-danger"
+                >You have reached to maximum limit of symbols. Title's max
+                length is 25 symbols
+              </span>
+            </div>
+            <div class="mb-3">
+              <label for="text" class="col-form-label">Text:</label>
+              <textarea
+                formControlName="text"
+                [classList]="[
+                  'form-control ',
+                  postForm.get('text')?.invalid
+                    ? 'border border-danger'
+                    : 'border border-info'
+                ]"
+                id="text"
+                placeholder="text..."
+                rows="10"
+              ></textarea>
+              <span
+                *ngIf="postForm.get('text')?.hasError('required')"
+                class="text-danger"
+              >
+                Text is Required
+              </span>
+            </div>
+            <div class="input-group">
+              <input
+                type="file"
+                formControlName="photo"
+                class="form-control border border-info"
+                (change)="onImagePicked($event)"
+              />
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="submit"
+                class="btn btn-secondary"
+                (click)="closeModal()"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="postForm.invalid"
+              >
+                <span *ngIf="postFormMethod === 'ADD'">Add Post</span>
+                <span *ngIf="postFormMethod === 'EDIT'">Edit Post</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngFor="let post of postsList$ | async">
+    <app-post [post]="post" (getIdEvent)="getId($event)"></app-post>
+  </ng-container>
+</section>
+<section class="d-flex justify-content-center align-items-center mt-2">
+  <div
+    *ngIf="postsIsLoading$ | async"
+    class="spinner-border text-primary"
+    role="status"
+  >
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</section>
