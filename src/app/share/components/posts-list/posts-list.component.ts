@@ -1,12 +1,7 @@
-import { Component, Directive, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AppStateInterface } from '../../state/app-state-interface';
 import * as PostsActions from '../../state/posts/actions';
@@ -14,23 +9,25 @@ import { PostInterface } from '../../types/post-interface';
 import {
   postIsLoadingSelector,
   postsSelector,
+  postsSelectorByUserId,
 } from '../../state/posts/selectors';
 import { PostEmitInterface } from '../../types/post-emit-interface';
-
-class Greeter {
-  greet(name: string): string {
-    return `Hello ${name}!`;
-  }
-}
+import { LocalStorageService } from '../../services/local.storage.service';
+import { UserInterface } from '../../types/user-interface';
+import { userSelectorById } from '../../state/users/selectors';
 
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
-  styleUrls: ['./posts-list.component.css'],
+  styleUrls: ['./posts-list.component.scss'],
 })
 export class PostsListComponent {
   postsIsLoading$: Observable<boolean>;
-  postsList$: Observable<PostInterface[]>;
+  postsListByUserId$: Observable<PostInterface[]>;
+  currentUserId: number;
+  currentUser: Observable<UserInterface | undefined>;
+  currentUserFirstName: string | undefined;
+
   photo: any;
   filename = '';
   postIdToEdit: number | undefined;
@@ -41,9 +38,19 @@ export class PostsListComponent {
 
   openModal: boolean = false;
 
-  constructor(private store: Store<AppStateInterface>) {
+  constructor(
+    private store: Store<AppStateInterface>,
+    localStorageService: LocalStorageService
+  ) {
     this.postsIsLoading$ = store.pipe(select(postIsLoadingSelector));
-    this.postsList$ = store.pipe(select(postsSelector));
+    this.currentUserId = localStorageService.getCurrentUserId();
+    this.postsListByUserId$ = store.pipe(
+      select(postsSelectorByUserId(this.currentUserId))
+    );
+    this.currentUser = store.pipe(select(userSelectorById(this.currentUserId)));
+    this.currentUser.subscribe(
+      (user) => (this.currentUserFirstName = user?.name)
+    );
 
     this.postForm = new FormGroup({
       title: new FormControl('', {
@@ -75,24 +82,16 @@ export class PostsListComponent {
     this.postFormReset();
   }
 
-  // onSubmit(): void {
-  //   if (this.postFormMethod === 'ADD') {
-  //     this.addPost();
-  //   }
-  //   if (this.postFormMethod === 'EDIT') {
-  //   }
-  // }
-
   onSubmit(): void {
     let id!: number;
-    this.postsList$.subscribe((posts) => {
+    this.postsListByUserId$.subscribe((posts) => {
       id = posts[posts.length - 1].id + 1;
     });
 
     let newPost: PostInterface = {
       id: Number(new Date().toString),
-      userId: 1,
-      header: 'Header',
+      userId: this.currentUserId,
+      header: this.currentUserFirstName as string,
       title: this.postForm.value.title as string,
       text: this.postForm.value.text as string,
       photo: this.photo?.name ?? '/assets/img/profile-icon.png',
@@ -142,7 +141,7 @@ export class PostsListComponent {
       this.postFormMethod = 'EDIT';
       console.log('Get Id Posts-lists.component ', this.postFormMethod);
       let postToEdit: PostInterface | undefined;
-      this.postsList$.subscribe(
+      this.postsListByUserId$.subscribe(
         (posts) => (postToEdit = posts.find((post) => post.id === postEmit.id))
       );
       this.postForm.reset({

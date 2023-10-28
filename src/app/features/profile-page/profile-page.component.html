@@ -1,41 +1,393 @@
 <app-header></app-header>
+
 <main class="main__profile">
   <app-nav></app-nav>
   <section class="p-4">
     <section class="section__profile position-relative">
-      <app-avatar
+      <!-- <app-avatar
         src="/assets/img/profile-icon.png"
         alt="Profile Icon"
         [width]="250"
         [height]="250"
         class="mb-2"
-      ></app-avatar>
-      <audio controls src="/assets/audio/Snailkick.mp3"></audio>
+      ></app-avatar> -->
+      <!-- <audio controls src="/assets/audio/Snailkick.mp3"></audio> -->
       <!-- <button class="btn btn-primary" (click)="addAudio()">Add Audio</button>
       <button class="btn btn-info" (click)="editAudio()">Edit Audio</button>
       <button class="btn btn-danger" (click)="deleteAudio()">
         Delete Audio
       </button> -->
 
-      <button class="btn btn-primary" (click)="addMessage()">
+      <!-- <button class="btn btn-primary" (click)="addMessage()">
         Add Message
       </button>
       <button class="btn btn-info" (click)="editMessage()">Edit Message</button>
       <button class="btn btn-danger" (click)="deleteMessage()">
         Delete Message
-      </button>
-      <div class="card mb-3 post text-bg-dark p-3">
+      </button> -->
+      <!-- <div class="card mb-3 post text-bg-dark p-3 w-100">
         <div class="card-header">Personal Information</div>
         <div class="card-body">
-          <h5 class="card-title">Yo</h5>
+          <h5 class="card-title">
+            {{ (currentUser$ | async)?.firstName }}
+          </h5>
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content. Lorem, ipsum dolor sit amet atque fuga
-            nulla vero harum libero accusantium laborum, deserunt repudiandae
-            dolorem. Nostrum.
+            Age: {{ (currentUser$ | async)?.age }} <br />
+            First Name: {{ (currentUser$ | async)?.firstName }} <br />
+            Last Name:
+            {{ (currentUser$ | async)?.lastName }} <br />
+            Middle Name:
+            {{ (currentUser$ | async)?.middleName }}
           </p>
         </div>
+      </div> -->
+
+      <div class="modal fade mt-5" [ngClass]="openModal ? 'show d-block' : ''">
+        <div class="modal-dialog modal-xl">
+          <div
+            class="modal-content border border-dark rounded"
+            style="box-shadow: 0 0 75px black"
+          >
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+              <button
+                type="button"
+                class="btn-close"
+                (click)="closeModal()"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                  <label for="name" class="col-form-label"> Name: </label>
+                  <input
+                    type="text"
+                    formControlName="name"
+                    [classList]="[
+                      'form-control ',
+                      userForm.get('name')?.invalid
+                        ? 'border border-danger'
+                        : 'border border-info'
+                    ]"
+                    id="title"
+                    placeholder="title..."
+                  />
+                  <span
+                    *ngIf="userForm.get('name')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Name is Required
+                  </span>
+                  <span
+                    *ngIf="userForm.get('name')?.hasError('minlength')"
+                    class="text-danger"
+                    >Name's minimum amount of symbols is 3 symbols
+                  </span>
+                  <span
+                    *ngIf="userForm.get('name')?.hasError('maxlength')"
+                    class="text-danger"
+                    >You have reached to maximum limit of symbols. Name's max
+                    length is 70 symbols
+                  </span>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="col-form-label">Email:</label>
+                  <input
+                    type="text"
+                    formControlName="email"
+                    [classList]="[
+                      'form-control ',
+                      userForm.get('email')?.invalid
+                        ? 'border border-danger'
+                        : 'border border-info'
+                    ]"
+                    id="email"
+                    placeholder="email..."
+                  />
+                  <span
+                    *ngIf="userForm.get('email')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Email is Required
+                  </span>
+                  <span
+                    *ngIf="userForm.get('email')?.hasError('email')"
+                    class="text-danger"
+                  >
+                    Email is not correct. Example: example@email.com
+                  </span>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="col-form-label">Password:</label>
+                  <div class="d-flex">
+                    <input
+                      formControlName="password"
+                      [type]="showPassword ? 'text' : 'password'"
+                      [classList]="[
+                        'form-control ',
+                        userForm.get('email')?.invalid
+                          ? 'border border-danger'
+                          : 'border border-info'
+                      ]"
+                      id="password"
+                      name="password"
+                      placeholder="password..."
+                      value=""
+                    />
+                    <span class="input-group-text">
+                      <svg
+                        role="button"
+                        (click)="showPassword = !showPassword"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-eye"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"
+                        />
+                        <path
+                          d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                  <span
+                    *ngIf="userForm.get('password')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Password is required
+                  </span>
+                  <span
+                    class="text-danger"
+                    *ngIf="userForm.get('password')?.hasError('pattern')"
+                  >
+                    Password is not correct. Password must contain minimum eight
+                    characters, at least one uppercase and lowercase letter,
+                    number, and special character
+                  </span>
+                </div>
+                <div class="mb-3">
+                  <label for="birthDate" class="col-form-label"
+                    >Birth Date:</label
+                  >
+                  <input
+                    formControlName="birthDate"
+                    type="date"
+                    [classList]="[
+                      'form-control ',
+                      userForm.get('birthDate')?.invalid
+                        ? 'border border-danger'
+                        : 'border border-info'
+                    ]"
+                  />
+                  <span
+                    *ngIf="userForm.get('birthDate')?.getError('required')"
+                    class="text-danger"
+                  >
+                    Birth Date is required
+                  </span>
+                  <span
+                    *ngIf="
+                      userForm.get('birthDate')?.getError('invalidBirthDate')
+                    "
+                    class="text-danger"
+                  >
+                    You are suppose to be older than 14 to register on this
+                    website
+                  </span>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="col-form-label">
+                    Description:
+                  </label>
+                  <textarea
+                    formControlName="description"
+                    [classList]="[
+                      'form-control ',
+                      userForm.get('description')?.invalid
+                        ? 'border border-danger'
+                        : 'border border-info'
+                    ]"
+                    id="text"
+                    placeholder="Tell about you're self"
+                    rows="10"
+                  ></textarea>
+                  <span
+                    *ngIf="userForm.get('description')?.getError('required')"
+                    class="text-danger"
+                  >
+                    Description is required
+                  </span>
+                  <span
+                    *ngIf="userForm.get('description')?.getError('maxlength')"
+                    class="text-danger"
+                  >
+                    Description should be less than 500 symbols
+                  </span>
+                </div>
+                <div class="mb-3">
+                  <label for="mobile" class="col-form-label"> Mobile: </label>
+                  <input
+                    type="text"
+                    formControlName="mobile"
+                    [classList]="[
+                      'form-control ',
+                      userForm.get('mobile')?.invalid
+                        ? 'border border-danger'
+                        : 'border border-info'
+                    ]"
+                    id="title"
+                    placeholder="title..."
+                  />
+                  <span
+                    *ngIf="userForm.get('mobile')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Mobile is Required
+                  </span>
+                  <span
+                    *ngIf="userForm.get('mobile')?.hasError('minlength')"
+                    class="text-danger"
+                    >Mobile's minimum amount of symbols is 4 symbols
+                  </span>
+                  <span
+                    *ngIf="userForm.get('mobile')?.hasError('maxlength')"
+                    class="text-danger"
+                    >You have reached to maximum limit of symbols. Mobile's max
+                    length is 15 symbols
+                  </span>
+                </div>
+                <div class="mb-3">
+                  <label for="address" class="col-form-label"> Address: </label>
+                  <input
+                    type="text"
+                    formControlName="address"
+                    [classList]="[
+                      'form-control ',
+                      userForm.get('address')?.invalid
+                        ? 'border border-danger'
+                        : 'border border-info'
+                    ]"
+                    id="title"
+                    placeholder="title..."
+                  />
+                  <span
+                    *ngIf="userForm.get('address')?.hasError('maxlength')"
+                    class="text-danger"
+                    >You have reached to maximum limit of symbols. Address's max
+                    length is 50 symbols
+                  </span>
+                </div>
+                <div class="input-group">
+                  <input
+                    type="file"
+                    formControlName="photo"
+                    class="form-control border border-info"
+                    (change)="onImagePicked($event)"
+                  />
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    type="submit"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="container">
+        <div class="d-flex justify-content-around">
+          <div class="col-lg-2">
+            <div class="card mb-4">
+              <div class="card-body text-center">
+                <img
+                  [src]="(currentUser$ | async)?.photo"
+                  alt="avatar"
+                  class="rounded-circle img-fluid"
+                  style="width: 200px"
+                />
+                <h5 class="my-3">{{ (currentUser$ | async)?.name }}</h5>
+                <p class="text-muted mb-1">Full Stack Developer</p>
+                <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                <div class="d-flex justify-content-center mb-2">
+                  <button type="button" class="btn btn-primary">Follow</button>
+                  <button type="button" class="btn btn-outline-primary ms-1">
+                    Message
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Full Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      {{ (currentUser$ | async)?.name }}
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      {{ (currentUser$ | async)?.email }}
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Age</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                      {{ (currentUser$ | async)?.age }}
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Mobile</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">(098) 765-4321</p>
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Address</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <svg
         (click)="editUser()"
         xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +412,7 @@
         width="25"
         height="25"
         fill="currentColor"
-        class="bi bi-x-square position-absolute top-0 end-0 white-png"
+        class="bi bi-x-square position-absolute top-0 end-0"
         role="button"
         viewBox="0 0 16 16"
       >

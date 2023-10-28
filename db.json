@@ -1,105 +1,30 @@
 {
   "posts": [
     {
-      "id": 4,
-      "userId": 1,
-      "header": "Header",
-      "title": "qd",
-      "text": "qd",
-      "photo": "/assets/img/7fg1duig.jpg"
-    },
-    {
-      "id": 7,
-      "userId": 1,
-      "header": "Header",
-      "title": "",
-      "text": "",
-      "photo": "/assets/img/pj135tq5.jpg"
-    },
-    {
-      "id": 8,
-      "userId": 1,
-      "header": "Header",
-      "title": "",
-      "text": "",
-      "photo": "/assets/img/usdoowot.jpg"
-    },
-    {
-      "id": 9,
-      "userId": 1,
-      "header": "Header",
-      "title": "",
-      "text": "",
-      "photo": "/assets/img/qapst3zp.jpg"
-    },
-    {
-      "id": 10,
-      "userId": 1,
-      "header": "Header",
-      "title": "",
-      "text": "",
-      "photo": "/assets/img/rrtwjfzc.jpg"
-    },
-    {
-      "id": 17,
-      "userId": 1,
-      "header": "Header",
-      "title": "asdasd",
-      "text": "asdadsdads",
-      "photo": "/assets/img/pwn7p4yp.jpg"
-    },
-    {
-      "id": 1695802865891,
-      "userId": 1,
-      "header": "Header",
-      "title": "NEw ",
-      "text": "qwe",
-      "photo": "/assets/img/w2b7peqi.jpg"
-    },
-    {
-      "id": 1695886593787,
-      "userId": 1,
-      "header": "Header",
-      "title": "asd",
-      "text": "asd",
-      "photo": "/assets/img/2gtehy6g.jpg"
+      "id": 1,
+      "userId": 1698306174172,
+      "header": "Newbie",
+      "title": "ne wpost",
+      "text": "new [opst",
+      "photo": "/assets/img/2b8zn0qj.jpg"
     }
   ],
   "users": [
     {
-      "id": 1,
+      "id": 1698306174172,
       "email": "admin@admin.com",
-      "password": "admin",
-      "firstName": "Admin",
-      "lastName": "Admin",
-      "middleName": "Admin",
-      "age": 21
+      "password": "Admin123!@#",
+      "name": "qdwqdw",
+      "age": "2001-11-27",
+      "description": "asd",
+      "mobile": "",
+      "address": "",
+      "photo": "/assets/img/9cc7j3r5.jpg"
     }
   ],
-  "friends": [
-    {
-      "id": 1,
-      "userId": 1,
-      "friendId": 1
-    }
-  ],
-  "audio": [
-    {
-      "id": 1,
-      "userId": 1,
-      "title": "Audio",
-      "author": "Author",
-      "src": "/assets/audio/Snailkick.mp3"
-    }
-  ],
-  "messages": [
-    {
-      "id": 1,
-      "userId": 1,
-      "receiverId": 1,
-      "message": "Hello"
-    }
-  ],
+  "friends": [],
+  "audio": [],
+  "messages": [],
   "images": [
     {
       "id": 1,

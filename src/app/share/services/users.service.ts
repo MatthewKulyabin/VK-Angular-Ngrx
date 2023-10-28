@@ -16,6 +16,11 @@ export class UsersService {
     return this.http.get<UserInterface[]>(this.usersApi);
   }
 
+  patchPhoto(userId: number, photo: FormData): Observable<UserInterface> {
+    console.log('PostsService', userId);
+    return this.http.patch<UserInterface>(this.usersApi + userId, photo);
+  }
+
   addUser(user: UserInterface): Observable<UserInterface> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');

@@ -102,7 +102,7 @@
     </div>
   </div>
 
-  <ng-container *ngFor="let post of postsList$ | async">
+  <ng-container *ngFor="let post of postsListByUserId$ | async">
     <app-post [post]="post" (getIdEvent)="getId($event)"></app-post>
   </ng-container>
 </section>

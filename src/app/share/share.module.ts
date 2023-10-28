@@ -26,6 +26,7 @@ import { AudioEffects } from './state/audio/effects';
 import { MessagesService } from './services/messages.service';
 import { MessagesEffects } from './state/messages/effects';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LocalStorageService } from './services/local.storage.service';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     FriendsService,
     AudioService,
     MessagesService,
+    LocalStorageService,
   ],
 })
 export class ShareModule {}

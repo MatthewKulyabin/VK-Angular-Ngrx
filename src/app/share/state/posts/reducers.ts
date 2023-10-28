@@ -42,7 +42,7 @@ export const reducers = createReducer(
   // [Posts] Add Post
   on(PostsActions.addPostSuccess, (state, action) => ({
     ...state,
-    posts: [...state.posts, action.post],
+    posts: [action.post, ...state.posts],
   })),
   on(PostsActions.addPostFailure, (state, action) => ({
     ...state,

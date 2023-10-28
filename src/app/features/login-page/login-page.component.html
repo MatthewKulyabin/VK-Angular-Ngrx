@@ -15,20 +15,61 @@
   <main
     class="d-flex flex-column align-items-center justify-content-center w-25 mx-auto h-75"
   >
+    {{ loginForm.value | json }}
     <h1>Log In</h1>
-    <input
-      type="email"
-      class="form-control border border-dark p-3"
-      placeholder="Email..."
-    />
-    <input
-      type="password"
-      class="form-control border border-dark p-3 mt-3"
-      placeholder="Password..."
-    />
-    <section class="d-flex justify-content-between w-100">
-      <button type="button" class="btn btn-dark mt-3 p-3 w-25">Log In</button>
-      <button type="button" class="btn btn-dark mt-3 p-3 w-25">Sign Up</button>
-    </section>
+    <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control border border-dark p-3"
+        placeholder="Email..."
+      />
+      <span
+        class="text-danger"
+        *ngIf="loginForm.get('email')?.hasError('required')"
+      >
+        Email is Required
+      </span>
+      <span
+        class="text-danger"
+        *ngIf="loginForm.get('email')?.hasError('email')"
+      >
+        Email is not correct. Example: example@email.com
+      </span>
+      <span class="text-danger" *ngIf="loginError">{{ loginError }}</span>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control border border-dark p-3 mt-3"
+        placeholder="Password..."
+      />
+      <span
+        class="text-danger"
+        *ngIf="loginForm.get('password')?.hasError('required')"
+      >
+        Password is required
+      </span>
+      <span
+        class="text-danger"
+        *ngIf="loginForm.get('password')?.hasError('pattern')"
+      >
+        Password is not correct. Password must contain minimum eight characters,
+        at least one uppercase and lowercase letter, number, and special
+        character
+      </span>
+      <span class="text-danger" *ngIf="loginError">{{ loginError }}</span>
+      <section class="d-flex justify-content-between w-100">
+        <button
+          type="submit"
+          class="btn btn-dark mt-3 p-3 w-25"
+          [disabled]="loginForm.invalid"
+        >
+          Log In
+        </button>
+        <button type="button" class="btn btn-dark mt-3 p-3 w-25">
+          Sign Up
+        </button>
+      </section>
+    </form>
   </main>
 </div>

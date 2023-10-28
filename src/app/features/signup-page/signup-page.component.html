@@ -12,29 +12,64 @@
       </div>
     </nav>
   </header>
+  {{ userForm.value | json }}
+  <br />
+  {{ userForm.get("email")?.errors | json }}
+  <br />
+  {{ userForm.get("password")?.errors | json }}
   <main
     class="d-flex flex-column align-items-center justify-content-center w-25 mx-auto h-75"
   >
     <h1>Sign Up</h1>
-    <input
-      type="email"
-      class="form-control border border-dark p-3"
-      placeholder="Email..."
-    />
-    <input
-      type="password"
-      class="form-control border border-dark p-3 mt-3"
-      placeholder="Password..."
-    />
-    <section class="d-flex justify-content-between w-100">
-      <button
-        type="button"
-        class="btn btn-dark mt-3 p-3 w-25"
-        (click)="addUser()"
+    <form [formGroup]="userForm" (ngSubmit)="addUser()">
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control border border-dark p-3"
+        placeholder="Email..."
+      />
+      <span
+        class="text-danger"
+        *ngIf="userForm.get('email')?.hasError('required')"
       >
-        Sign Up
-      </button>
-      <button type="button" class="btn btn-dark mt-3 p-3 w-25">Log In</button>
-    </section>
+        Email is Required
+      </span>
+      <span
+        class="text-danger"
+        *ngIf="userForm.get('email')?.hasError('email')"
+      >
+        Email is not correct. Example: example@email.com
+      </span>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control border border-dark p-3 mt-3"
+        placeholder="Password..."
+      />
+      <span
+        class="text-danger"
+        *ngIf="userForm.get('password')?.hasError('required')"
+      >
+        Password is required
+      </span>
+      <span
+        class="text-danger"
+        *ngIf="userForm.get('password')?.hasError('pattern')"
+      >
+        Password is not correct. Password must contain minimum eight characters,
+        at least one uppercase and lowercase letter, number, and special
+        character
+      </span>
+      <section class="d-flex justify-content-between w-100">
+        <button
+          type="submit"
+          class="btn btn-dark mt-3 p-3 w-25"
+          [disabled]="userForm.invalid"
+        >
+          Sign Up
+        </button>
+        <button type="button" class="btn btn-dark mt-3 p-3 w-25">Log In</button>
+      </section>
+    </form>
   </main>
 </div>

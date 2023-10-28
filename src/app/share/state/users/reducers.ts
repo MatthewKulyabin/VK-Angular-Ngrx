@@ -24,6 +24,21 @@ export const reducers = createReducer(
     isLoading: false,
   })),
 
+  // [Users] Patch Photo
+  on(UsersActions.patchPhoto, (state, action) => ({ ...state })),
+  on(UsersActions.patchPhotoSuccess, (state, action) => ({
+    ...state,
+    posts: [
+      ...state.users.map((user) =>
+        user.id === action.user.id ? action.user : user
+      ),
+    ],
+  })),
+  on(UsersActions.patchPhotoFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+  })),
+
   // [Users] Add User
   on(UsersActions.addUserSuccess, (state, action) => ({
     ...state,

@@ -8,7 +8,7 @@ import { FriendInterface } from 'src/app/share/types/friend-interface';
 @Component({
   selector: 'app-friend',
   templateUrl: './friend.component.html',
-  styleUrls: ['./friend.component.css'],
+  styleUrls: ['./friend.component.scss'],
 })
 export class FriendComponent {
   @Input() src?: string;

@@ -12,6 +12,20 @@ export const getUsersFailure = createAction(
   props<{ error: string }>()
 );
 
+// [Users] Patch Photo
+export const patchPhoto = createAction(
+  '[Users] Patch Photo',
+  props<{ id: number; photo: FormData }>()
+);
+export const patchPhotoSuccess = createAction(
+  '[Users] Patch Photo success',
+  props<{ user: UserInterface }>()
+);
+export const patchPhotoFailure = createAction(
+  '[Users] Patch Photo failure',
+  props<{ error: string }>()
+);
+
 // [Users] Add User
 export const addUser = createAction(
   '[Users] Add User',

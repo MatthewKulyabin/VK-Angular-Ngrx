@@ -23,6 +23,19 @@ export class UsersEffects {
     );
   });
 
+  patchPhoto$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UsersActions.patchPhoto),
+      switchMap((action) => {
+        console.log('action', action);
+        return this.userService.patchPhoto(action.id, action.photo).pipe(
+          map((user) => UsersActions.patchPhotoSuccess({ user })),
+          catchError((error) => of(UsersActions.patchPhotoFailure({ error })))
+        );
+      })
+    );
+  });
+
   addUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UsersActions.addUser),

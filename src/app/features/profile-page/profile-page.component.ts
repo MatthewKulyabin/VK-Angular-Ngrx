@@ -9,37 +9,133 @@ import * as MessagesActions from '../../share/state/messages/actions';
 import { postIsLoadingSelector } from '../../share/state/posts/selectors';
 import { AppStateInterface } from '../../share/state/app-state-interface';
 import { UserInterface } from 'src/app/share/types/user-interface';
+import { userSelectorById } from 'src/app/share/state/users/selectors';
+import { LocalStorageService } from 'src/app/share/services/local.storage.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { birthDateValidation } from 'src/app/share/custom-validators/birthDateValidation';
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.css'],
+  styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
   isLoading$: Observable<boolean>;
+  currentUser$: Observable<UserInterface | undefined>;
+  currentUser: UserInterface | undefined;
 
-  constructor(private store: Store<AppStateInterface>) {
+  photo!: any;
+  filename = '';
+
+  userForm: FormGroup;
+
+  openModal: boolean = true;
+  showPassword: boolean = false;
+
+  constructor(
+    private store: Store<AppStateInterface>,
+    private localStorageService: LocalStorageService
+  ) {
     this.isLoading$ = store.pipe(select(postIsLoadingSelector));
+    this.currentUser$ = store.pipe(
+      select(userSelectorById(this.localStorageService.getCurrentUserId()))
+    );
+    this.currentUser$.subscribe((user) => console.log(user));
+
+    this.userForm = new FormGroup({
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&].{8,}'
+          ),
+        ],
+      }),
+      name: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(70),
+        ],
+      }),
+      birthDate: new FormControl('', {
+        validators: [Validators.required, birthDateValidation],
+      }),
+      description: new FormControl('', {
+        validators: [Validators.required, Validators.maxLength(500)],
+      }),
+      mobile: new FormControl('', {
+        validators: [Validators.minLength(4), Validators.maxLength(15)],
+      }),
+      address: new FormControl('', { validators: [Validators.maxLength(50)] }),
+      photo: new FormControl<any>(null),
+    });
+  }
+
+  closeModal(): void {
+    this.openModal = false;
+  }
+
+  onImagePicked(event: Event): void {
+    let file: any = event.target;
+    this.photo = file.files[0];
   }
 
   ngOnInit(): void {
+    this.store.dispatch(UsersActions.getUsers());
     this.store.dispatch(PostsActions.getPosts());
     this.store.dispatch(AudioActions.getAudio());
     this.store.dispatch(MessagesActions.getMessages());
+
+    this.userForm.reset({});
   }
 
-  editUser(): void {
-    const newUser: UserInterface = {
-      id: 3,
-      email: 'newUser@gmail.com',
-      password: 'newUser',
-      firstName: 'Matthew123123',
-      lastName: 'newUser',
-      middleName: 'newUser',
-      age: 20,
+  onSubmit(): void {
+    this.filename = this.photo?.name;
+    const formData = new FormData();
+    formData.append('photo', this.photo);
+
+    const editedUser: UserInterface = {
+      id: this.localStorageService.getCurrentUserId(),
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+      name: this.userForm.value.name,
+      age: this.userForm.value.birthDate,
+      description: this.userForm.value.description,
+      mobile: this.userForm.value.mobile,
+      address: this.userForm.value.address,
+      photo: formData,
     };
-    this.store.dispatch(UsersActions.editUser({ user: newUser }));
+
+    this.store.dispatch(UsersActions.editUser({ user: editedUser }));
+
+    if (this.filename) {
+      this.store.dispatch(
+        UsersActions.patchPhoto({
+          id: this.localStorageService.getCurrentUserId(),
+          photo: formData,
+        })
+      );
+    }
   }
+
+  editUser(): void {}
+
+  // editUser(): void {
+  //   const newUser: UserInterface = {
+  //     id: 3,
+  //     email: 'newUser@gmail.com',
+  //     password: 'newUser',
+  //     firstName: 'Matthew123123',
+  //     lastName: 'newUser',
+  //     middleName: 'newUser',
+  //     age: 20,
+  //   };
+  //   this.store.dispatch(UsersActions.editUser({ user: newUser }));
+  // }
   deleteUser(): void {
     this.store.dispatch(UsersActions.deleteUser({ id: 2 }));
   }

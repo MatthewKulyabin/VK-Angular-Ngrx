@@ -13,6 +13,11 @@ export const postsSelector = createSelector(
   (state) => state.posts
 );
 
+export const postsSelectorByUserId = (userId: number) =>
+  createSelector(selectFeature, (state) =>
+    state.posts.filter((post) => post.userId === userId)
+  );
+
 export const errorSelector = createSelector(
   selectFeature,
   (state) => state.error
