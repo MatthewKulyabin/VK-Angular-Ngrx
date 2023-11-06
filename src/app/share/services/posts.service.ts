@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { PostInterface } from '../types/post-interface';
 import { environment } from 'src/environments/environment';
 
@@ -49,5 +49,14 @@ export class PostsService {
     return this.http
       .delete<number | any>(this.postsApi + id)
       .pipe(map(() => id));
+  }
+
+  deletePostsByUserId(userId: number, ids: Array<number>): Observable<number> {
+    ids.map((id) =>
+      this.http
+        .delete(this.postsApi + id)
+        .subscribe((data) => console.log(data))
+    );
+    return of(userId);
   }
 }

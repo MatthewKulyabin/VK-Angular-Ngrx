@@ -67,3 +67,17 @@ export const deletePostFailure = createAction(
   '[Posts] Delete Post failure',
   props<{ error: string }>()
 );
+
+// [Posts] Delete Posts by UserId
+export const deletePostsByUserId = createAction(
+  '[Posts] Delete Posts by UserId',
+  props<{ userId: number; ids: Array<number> }>()
+);
+export const deletePostsByUserIdSuccess = createAction(
+  '[Posts] Delete Posts by UserId Success',
+  props<{ userId: number }>()
+);
+export const deletePostsByUserIdFailure = createAction(
+  '[Posts] Delete Posts by UserId Failure',
+  props<{ error: string }>()
+);

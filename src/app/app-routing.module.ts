@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProfilePageComponent } from './features/profile-page/profile-page.component';
 import { LoginPageComponent } from './features/login-page/login-page.component';
 import { SignupPageComponent } from './features/signup-page/signup-page.component';
+import { AudioPageComponent } from './features/audio-page/audio-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/profile', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
+  { path: 'audio', component: AudioPageComponent },
 ];
 
 @NgModule({

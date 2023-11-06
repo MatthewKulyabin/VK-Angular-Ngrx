@@ -27,6 +27,7 @@ import { MessagesService } from './services/messages.service';
 import { MessagesEffects } from './state/messages/effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LocalStorageService } from './services/local.storage.service';
+import { AudioComponent } from './components/audio/audio.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LocalStorageService } from './services/local.storage.service';
     NavComponent,
     PostsListComponent,
     PostComponent,
+    AudioComponent,
   ],
   imports: [
     RouterModule,
@@ -63,6 +65,7 @@ import { LocalStorageService } from './services/local.storage.service';
     NavComponent,
     PostsListComponent,
     PostComponent,
+    AudioComponent,
   ],
   providers: [
     PostsService,

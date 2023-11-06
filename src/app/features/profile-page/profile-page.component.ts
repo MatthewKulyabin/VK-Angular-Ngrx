@@ -6,13 +6,18 @@ import * as PostsActions from '../../share/state/posts/actions';
 import * as UsersActions from '../../share/state/users/actions';
 import * as AudioActions from '../../share/state/audio/actions';
 import * as MessagesActions from '../../share/state/messages/actions';
-import { postIsLoadingSelector } from '../../share/state/posts/selectors';
+import {
+  postIsLoadingSelector,
+  postsSelectorByUserId,
+} from '../../share/state/posts/selectors';
 import { AppStateInterface } from '../../share/state/app-state-interface';
 import { UserInterface } from 'src/app/share/types/user-interface';
 import { userSelectorById } from 'src/app/share/state/users/selectors';
 import { LocalStorageService } from 'src/app/share/services/local.storage.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { birthDateValidation } from 'src/app/share/custom-validators/birthDateValidation';
+import { Router } from '@angular/router';
+import { PostInterface } from 'src/app/share/types/post-interface';
 
 @Component({
   selector: 'app-profile-page',
@@ -24,23 +29,34 @@ export class ProfilePageComponent implements OnInit {
   currentUser$: Observable<UserInterface | undefined>;
   currentUser: UserInterface | undefined;
 
+  postsByUserId$: Observable<PostInterface[]>;
+  postsByUserIdIds: number[] | undefined;
+
   photo!: any;
   filename = '';
 
   userForm: FormGroup;
 
-  openModal: boolean = true;
+  openModal: boolean = false;
   showPassword: boolean = false;
 
   constructor(
     private store: Store<AppStateInterface>,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     this.isLoading$ = store.pipe(select(postIsLoadingSelector));
     this.currentUser$ = store.pipe(
       select(userSelectorById(this.localStorageService.getCurrentUserId()))
     );
     this.currentUser$.subscribe((user) => console.log(user));
+
+    this.postsByUserId$ = store.pipe(
+      select(postsSelectorByUserId(this.localStorageService.getCurrentUserId()))
+    );
+    this.postsByUserId$.subscribe(
+      (posts) => (this.postsByUserIdIds = posts.map((post) => post.id))
+    );
 
     this.userForm = new FormGroup({
       email: new FormControl('', {
@@ -75,8 +91,20 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
+  onOpenModal(): void {
+    this.openModal = true;
+    console.log(this.currentUser);
+    this.userForm.reset({
+      name: this.currentUser?.name,
+      email: this.currentUser?.email,
+      password: this.currentUser?.password,
+      birthDate: this.currentUser?.age,
+    });
+  }
+
   closeModal(): void {
     this.openModal = false;
+    console.log(this.postsByUserIdIds);
   }
 
   onImagePicked(event: Event): void {
@@ -137,7 +165,14 @@ export class ProfilePageComponent implements OnInit {
   //   this.store.dispatch(UsersActions.editUser({ user: newUser }));
   // }
   deleteUser(): void {
-    this.store.dispatch(UsersActions.deleteUser({ id: 2 }));
+    // this.store.dispatch(UsersActions.deleteUser({ id: 2 }));
+    this.store.dispatch(
+      PostsActions.deletePostsByUserId({
+        userId: this.localStorageService.getCurrentUserId(),
+        ids: this.postsByUserIdIds as number[],
+      })
+    );
+    // this.router.navigate(['/signup']);
   }
 
   addAudio(): void {
@@ -166,7 +201,11 @@ export class ProfilePageComponent implements OnInit {
     );
   }
   deleteAudio(): void {
-    this.store.dispatch(AudioActions.deleteAudio({ id: 2 }));
+    this.store.dispatch(
+      AudioActions.deleteAudio({
+        id: this.localStorageService.getCurrentUserId(),
+      })
+    );
   }
 
   addMessage(): void {

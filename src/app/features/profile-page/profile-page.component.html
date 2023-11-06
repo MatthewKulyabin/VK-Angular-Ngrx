@@ -69,8 +69,8 @@
                         ? 'border border-danger'
                         : 'border border-info'
                     ]"
-                    id="title"
-                    placeholder="title..."
+                    id="name"
+                    placeholder="name..."
                   />
                   <span
                     *ngIf="userForm.get('name')?.hasError('required')"
@@ -308,14 +308,14 @@
 
       <div class="container">
         <div class="d-flex justify-content-around">
-          <div class="col-lg-2">
+          <div class="col-lg-4">
             <div class="card mb-4">
               <div class="card-body text-center">
                 <img
                   [src]="(currentUser$ | async)?.photo"
                   alt="avatar"
                   class="rounded-circle img-fluid"
-                  style="width: 200px"
+                  width="200px"
                 />
                 <h5 class="my-3">{{ (currentUser$ | async)?.name }}</h5>
                 <p class="text-muted mb-1">Full Stack Developer</p>
@@ -389,7 +389,7 @@
       </div>
 
       <svg
-        (click)="editUser()"
+        (click)="onOpenModal()"
         xmlns="http://www.w3.org/2000/svg"
         width="25"
         height="25"

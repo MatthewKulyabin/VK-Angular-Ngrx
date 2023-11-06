@@ -73,5 +73,15 @@ export const reducers = createReducer(
   on(PostsActions.deletePostFailure, (state, action) => ({
     ...state,
     error: action.error,
+  })),
+
+  // [Posts] Delete Posts by UserId
+  on(PostsActions.deletePostsByUserIdSuccess, (state, action) => ({
+    ...state,
+    posts: [...state.posts.filter((post) => post.userId !== action.userId)],
+  })),
+  on(PostsActions.deletePostsByUserIdFailure, (state, action) => ({
+    ...state,
+    error: action.error,
   }))
 );

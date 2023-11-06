@@ -1,25 +1,16 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "userId": 1698306174172,
-      "header": "Newbie",
-      "title": "ne wpost",
-      "text": "new [opst",
-      "photo": "/assets/img/2b8zn0qj.jpg"
-    }
-  ],
+  "posts": [],
   "users": [
     {
       "id": 1698306174172,
-      "email": "admin@admin.com",
-      "password": "Admin123!@#",
-      "name": "qdwqdw",
-      "age": "2001-11-27",
-      "description": "asd",
-      "mobile": "",
-      "address": "",
-      "photo": "/assets/img/9cc7j3r5.jpg"
+      "email": null,
+      "password": null,
+      "name": null,
+      "age": null,
+      "description": null,
+      "mobile": null,
+      "address": null,
+      "photo": {}
     }
   ],
   "friends": [],

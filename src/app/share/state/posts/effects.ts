@@ -84,4 +84,20 @@ export class PostsEffects {
       })
     );
   });
+
+  deletePosts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostsActions.deletePostsByUserId),
+      switchMap((action) =>
+        this.postsService.deletePostsByUserId(action.userId, action.ids).pipe(
+          map((userId) => PostsActions.deletePostsByUserIdSuccess({ userId })),
+          catchError((error) =>
+            of(
+              PostsActions.deletePostsByUserIdFailure({ error: error.message })
+            )
+          )
+        )
+      )
+    );
+  });
 }
