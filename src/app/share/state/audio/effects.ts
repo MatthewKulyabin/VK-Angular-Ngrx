@@ -23,6 +23,22 @@ export class AudioEffects {
     );
   });
 
+  patchSrc$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AudioActions.patchSrc),
+      switchMap((action) => {
+        console.log('action', action);
+        return this.audioService.patchSrc(action.id, action.src).pipe(
+          map((audio) => {
+            console.log(audio, 'from effects');
+            return AudioActions.patchSrcSuccess({ audio });
+          }),
+          catchError((error) => of(AudioActions.patchSrcFailure({ error })))
+        );
+      })
+    );
+  });
+
   addAudio$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AudioActions.addAudio),

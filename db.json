@@ -2,47 +2,155 @@
   "posts": [],
   "users": [
     {
-      "id": 1698306174172,
-      "email": null,
-      "password": null,
-      "name": null,
-      "age": null,
-      "description": null,
-      "mobile": null,
-      "address": null,
-      "photo": {}
+      "id": 1700983701966,
+      "email": "newUser@gmail.com",
+      "password": "qweQWE123!@#",
+      "name": "Newbie",
+      "age": 21,
+      "description": "I'm new here",
+      "mobile": "7 777 777 77 77",
+      "address": "Novosibirsk"
+    },
+    {
+      "id": 1700983907351,
+      "email": "mc.mine.production@gmail.com",
+      "password": "qweQWE123!@#",
+      "name": "Матфей",
+      "age": "2001-12-27",
+      "description": "asd",
+      "mobile": "",
+      "address": "",
+      "photo": "/assets/img/ckixlerq.jpg"
     }
   ],
   "friends": [],
   "audio": [],
-  "messages": [],
-  "images": [
+  "messages": [
     {
-      "id": 1,
-      "image": ""
-    },
-    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?",
+      "publish_date": "2023-11-26T07:33:14.174Z",
       "id": 2
     },
     {
-      "id": 3
+      "id": 3,
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?",
+      "publish_date": "2023-12-04T06:37:33.297Z"
     },
     {
-      "id": 4
+      "id": 4,
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?",
+      "publish_date": "2023-12-04T06:38:41.760Z"
     },
     {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?",
+      "publish_date": "2023-11-26T07:33:40.373Z",
       "id": 5
     },
     {
-      "thumbnail": "uploads/hlcvj2ve.jpg",
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?",
+      "publish_date": "2023-11-26T07:33:40.525Z",
       "id": 6
     },
     {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?",
+      "publish_date": "2023-11-26T07:33:46.574Z",
       "id": 7
     },
     {
-      "photo": "uploads/9igvwgxe.jpg",
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd",
+      "publish_date": "2023-12-02T08:33:46.675Z",
       "id": 8
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd",
+      "publish_date": "2023-12-02T08:35:09.413Z",
+      "id": 9
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd",
+      "publish_date": "2023-12-02T08:35:55.261Z",
+      "id": 10
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd",
+      "publish_date": "2023-12-02T08:45:41.806Z",
+      "id": 11
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asdasd",
+      "publish_date": "2023-12-02T08:45:46.958Z",
+      "id": 12
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "фыв",
+      "publish_date": "2023-12-02T09:23:38.291Z",
+      "id": 13
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "фыв",
+      "publish_date": "2023-12-02T09:24:23.267Z",
+      "id": 15
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd",
+      "publish_date": "2023-12-02T09:26:38.019Z",
+      "id": 16
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983907351,
+      "message": "asd",
+      "publish_date": "2023-12-02T09:29:55.620Z",
+      "id": 17
+    },
+    {
+      "id": 24,
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd",
+      "publish_date": "2023-12-03T08:26:17.248Z"
+    },
+    {
+      "id": 25,
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "1ew",
+      "publish_date": "2023-12-04T06:46:15.232Z"
+    },
+    {
+      "userId": 1700983907351,
+      "receiverId": 1700983701966,
+      "message": "asd!@#",
+      "publish_date": "2023-12-04T06:45:44.753Z",
+      "id": 26
     }
   ]
 }

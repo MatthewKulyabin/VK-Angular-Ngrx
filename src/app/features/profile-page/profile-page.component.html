@@ -4,44 +4,6 @@
   <app-nav></app-nav>
   <section class="p-4">
     <section class="section__profile position-relative">
-      <!-- <app-avatar
-        src="/assets/img/profile-icon.png"
-        alt="Profile Icon"
-        [width]="250"
-        [height]="250"
-        class="mb-2"
-      ></app-avatar> -->
-      <!-- <audio controls src="/assets/audio/Snailkick.mp3"></audio> -->
-      <!-- <button class="btn btn-primary" (click)="addAudio()">Add Audio</button>
-      <button class="btn btn-info" (click)="editAudio()">Edit Audio</button>
-      <button class="btn btn-danger" (click)="deleteAudio()">
-        Delete Audio
-      </button> -->
-
-      <!-- <button class="btn btn-primary" (click)="addMessage()">
-        Add Message
-      </button>
-      <button class="btn btn-info" (click)="editMessage()">Edit Message</button>
-      <button class="btn btn-danger" (click)="deleteMessage()">
-        Delete Message
-      </button> -->
-      <!-- <div class="card mb-3 post text-bg-dark p-3 w-100">
-        <div class="card-header">Personal Information</div>
-        <div class="card-body">
-          <h5 class="card-title">
-            {{ (currentUser$ | async)?.firstName }}
-          </h5>
-          <p class="card-text">
-            Age: {{ (currentUser$ | async)?.age }} <br />
-            First Name: {{ (currentUser$ | async)?.firstName }} <br />
-            Last Name:
-            {{ (currentUser$ | async)?.lastName }} <br />
-            Middle Name:
-            {{ (currentUser$ | async)?.middleName }}
-          </p>
-        </div>
-      </div> -->
-
       <div class="modal fade mt-5" [ngClass]="openModal ? 'show d-block' : ''">
         <div class="modal-dialog modal-xl">
           <div
@@ -314,8 +276,7 @@
                 <img
                   [src]="(currentUser$ | async)?.photo"
                   alt="avatar"
-                  class="rounded-circle img-fluid"
-                  width="200px"
+                  class="rounded-circle img-fluid avatar-profile"
                 />
                 <h5 class="my-3">{{ (currentUser$ | async)?.name }}</h5>
                 <p class="text-muted mb-1">Full Stack Developer</p>

@@ -1,1 +1,18 @@
 // @import "mdb-angular-ui-kit/assets/scss/mdb.scss";
+.avatar-xxl {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+}
+
+.avatar-profile {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+
+.avatar-sm {
+  height: calc(4em + 1.2rem) !important;
+  width: calc(4em + 1.2rem) !important;
+  object-fit: cover;
+}

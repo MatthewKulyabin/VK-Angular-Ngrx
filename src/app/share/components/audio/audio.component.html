@@ -1,2 +1,33 @@
-<h6>Title: Author:</h6>
-<audio class="w-100" controls src="/assets/audio/Snailkick.mp3"></audio>
+<div #audioPlayer class="audio-player mb-5 bg-primary">
+  <div #timeline class="timeline">
+    <div #progress class="progress"></div>
+  </div>
+  <div class="controls">
+    <div class="play-container">
+      <div #togglePlay class="toggle-play play"></div>
+    </div>
+    <div #time class="time">
+      <div #current class="current">0:00</div>
+      <div class="divider">/</div>
+      <div #length class="length"></div>
+    </div>
+    <div class="name">Music Song</div>
+    <div class="volume-container">
+      <div #volumeBtn class="volume-button">
+        <div #volumeEl class="volume icono-volumeMedium"></div>
+      </div>
+
+      <div #volumeSlider class="volume-slider">
+        <div #volumePercentage class="volume-percentage"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container text-center">
+  <div class="row">
+    <div class="col">Title</div>
+    <div class="col">Author</div>
+    <div class="col">Who Added</div>
+  </div>
+</div> -->

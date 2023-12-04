@@ -1,52 +1,52 @@
-require('dotenv').config()
-const { IncomingForm } = require('formidable')
+require("dotenv").config();
+const { IncomingForm } = require("formidable");
 
-const uploadPath = process.env.UPLOAD_PATH ?? 'uploads'
+const uploadPath = process.env.UPLOAD_PATH ?? "uploads";
 
 const getUploadPath = () => {
-  if (uploadPath.indexOf('/') === 0)
-    uploadPath.slice(0, 1)
-  if (uploadPath.indexOf('/') === uploadPath.length - 1)
-    uploadPath.slice(uploadPath.length - 1, 1)
+  if (uploadPath.indexOf("/") === 0) uploadPath.slice(0, 1);
+  if (uploadPath.indexOf("/") === uploadPath.length - 1)
+    uploadPath.slice(uploadPath.length - 1, 1);
 
-  return `${process.cwd()}/${uploadPath}/`
-}
+  return `${process.cwd()}/${uploadPath}/`;
+};
 
-const parseData = request => {
+const parseData = (request) => {
   return new Promise((resolve, reject) => {
-    const data = {}
-    new IncomingForm().parse(request)
-      .on('fileBegin', (name, file) => {
-        uploadFile(file)
-        data[name] = file.path.split(`${process.cwd()}/`).pop()
+    const data = {};
+    new IncomingForm()
+      .parse(request)
+      .on("fileBegin", (name, file) => {
+        uploadFile(file);
+        data[name] = file.path.split(`${process.cwd()}/`).pop();
       })
-      .on('field', (name, value) => data[name] = value)
-      .on('end', () => resolve(data))
-      .on('error', error => reject(error))
-  })
-}
+      .on("field", (name, value) => (data[name] = value))
+      .on("end", () => resolve(data))
+      .on("error", (error) => reject(error));
+  });
+};
 
-const uploadFile = file => {
-  const fileNameSections = file.name.split('.')
-  const fileExt = fileNameSections.pop()
-  const randomStr = Math.random().toString(36).substr(2, 8)
+const uploadFile = (file) => {
+  const fileNameSections = file.name.split(".");
+  const fileExt = fileNameSections.pop();
+  const randomStr = Math.random().toString(36).substr(2, 8);
 
-  file.name = `${randomStr}.${fileExt}`
-  file.path = `${getUploadPath()}${file.name}`
-}
+  file.name = `${randomStr}.${fileExt}`;
+  file.path = `${getUploadPath()}${file.name}`;
+};
 
 module.exports = async (req, res, next) => {
   if (!req.body.photo) {
-    req.body.photo = '/assets/img/profile-icon.png'
+    req.body.photo = "/assets/img/profile-icon.png";
   }
-    if (req.is('multipart/form-data')) {
+  if (req.is("multipart/form-data")) {
     try {
-      req.body = await parseData(req)
-      req.body.photo = req.body.photo.replace('/src', '');
+      req.body = await parseData(req);
+      req.body.photo = req.body.photo.replace("/src", "");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
-  next()
-}
+  next();
+};

@@ -26,6 +26,7 @@
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
     "chart.js": "^3.1.1",
+    "json-server": "^0.17.4",
     "json-server-uploader": "^1.0.3",
     "mdb-angular-ui-kit": "^5.0.0",
     "rxjs": "~7.8.0",

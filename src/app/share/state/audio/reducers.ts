@@ -25,6 +25,21 @@ export const reducers = createReducer(
     isLoading: false,
   })),
 
+  // [Audio] Patch Src
+  on(AudioActions.patchSrc, (state, action) => ({ ...state })),
+  on(AudioActions.patchSrcSuccess, (state, action) => ({
+    ...state,
+    audio: [
+      ...state.audio.map((audio) =>
+        audio.id === action.audio.id ? action.audio : audio
+      ),
+    ],
+  })),
+  on(AudioActions.patchSrcFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+  })),
+
   // [Audio] Add Audio
   on(AudioActions.addAudioSuccess, (state, action) => ({
     ...state,

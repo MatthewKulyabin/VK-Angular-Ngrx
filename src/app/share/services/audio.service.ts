@@ -16,6 +16,11 @@ export class AudioService {
     return this.http.get<AudioInterface[]>(this.audioApi);
   }
 
+  patchSrc(audioId: number, src: FormData): Observable<AudioInterface> {
+    console.log('PostsService', audioId);
+    return this.http.patch<AudioInterface>(this.audioApi + audioId, src);
+  }
+
   addAudio(audio: AudioInterface): Observable<AudioInterface> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');

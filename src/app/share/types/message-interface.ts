@@ -3,4 +3,5 @@ export interface MessageInterface {
   userId?: number;
   receiverId?: number;
   message: string;
+  publish_date: Date;
 }

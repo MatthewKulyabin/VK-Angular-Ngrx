@@ -12,6 +12,20 @@ export const getAudioFailure = createAction(
   props<{ error: string }>()
 );
 
+// [Audio] Patch src
+export const patchSrc = createAction(
+  '[Audio] Patch Src',
+  props<{ id: number; src: FormData }>()
+);
+export const patchSrcSuccess = createAction(
+  '[Audio] Patch Src success',
+  props<{ audio: AudioInterface }>()
+);
+export const patchSrcFailure = createAction(
+  '[Audio] Patch Src failure',
+  props<{ error: string }>()
+);
+
 // [Audio] Add Audio
 export const addAudio = createAction(
   '[Audio] Add Audio',

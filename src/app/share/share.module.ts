@@ -28,6 +28,7 @@ import { MessagesEffects } from './state/messages/effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LocalStorageService } from './services/local.storage.service';
 import { AudioComponent } from './components/audio/audio.component';
+import { AudioListComponent } from './components/audio/audio-list/audio-list.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AudioComponent } from './components/audio/audio.component';
     PostsListComponent,
     PostComponent,
     AudioComponent,
+    AudioListComponent,
   ],
   imports: [
     RouterModule,
@@ -66,6 +68,7 @@ import { AudioComponent } from './components/audio/audio.component';
     PostsListComponent,
     PostComponent,
     AudioComponent,
+    AudioListComponent,
   ],
   providers: [
     PostsService,

@@ -179,6 +179,7 @@ export class ProfilePageComponent implements OnInit {
     this.store.dispatch(
       AudioActions.addAudio({
         audio: {
+          id: Date.now(),
           userId: 1,
           title: 'New Audio Title',
           author: 'New Audio Author',
@@ -212,17 +213,20 @@ export class ProfilePageComponent implements OnInit {
     this.store.dispatch(
       MessagesActions.addMessage({
         message: {
-          userId: 1,
-          receiverId: 1,
+          userId: 1700983907351,
+          receiverId: 1700983701966,
           message:
             'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, molestias ut. Autem temporibus magnam iusto voluptates ipsum dignissimos eligendi molestias accusamus sit. Culpa maxime minus corporis magnam aliquam, repellendus ullam?',
+          publish_date: new Date(),
         },
       })
     );
   }
   editMessage(): void {
     this.store.dispatch(
-      MessagesActions.editMessage({ message: { id: 2, message: 'Насвай' } })
+      MessagesActions.editMessage({
+        message: { id: 2, message: 'Насвай', publish_date: new Date() },
+      })
     );
   }
   deleteMessage(): void {

@@ -30,6 +30,8 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AudioPageComponent } from './features/audio-page/audio-page.component';
 import { AudioPageModule } from './features/audio-page/audio-page.module';
+import { MessagesPageComponent } from './features/messages-page/messages-page.component';
+import { MessagePageModule } from './features/messages-page/message-page.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -50,6 +52,7 @@ import { AudioPageModule } from './features/audio-page/audio-page.module';
     SignupPageModule,
     LoginPageModule,
     AudioPageModule,
+    MessagePageModule,
 
     ShareModule,
 
