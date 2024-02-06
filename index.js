@@ -36,13 +36,15 @@ const uploadFile = (file) => {
 };
 
 module.exports = async (req, res, next) => {
-  if (!req.body.photo) {
-    req.body.photo = "/assets/img/profile-icon.png";
-  }
   if (req.is("multipart/form-data")) {
     try {
       req.body = await parseData(req);
-      req.body.photo = req.body.photo.replace("/src", "");
+      if (req.body.photo) {
+        req.body.photo = req.body.photo.replace("/src", "");
+      }
+      if (req.body.src) {
+        req.body.src = req.body.src.replace("/src", "");
+      }
     } catch (error) {
       console.error(error);
     }
