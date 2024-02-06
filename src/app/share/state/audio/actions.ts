@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { AudioInterface } from '../../types/audio-interface';
 
 // [Audio] Get Audio
@@ -65,5 +66,19 @@ export const deleteAudioSuccess = createAction(
 );
 export const deleteAudioFailure = createAction(
   '[Audio] Delete Audio failure',
+  props<{ error: string }>()
+);
+
+// [Audio] Delete Audio by UserId
+export const deleteAudioByUserId = createAction(
+  '[Audio] Delete Audio by UserId',
+  props<{ userId: number; ids: Array<number> }>()
+);
+export const deleteAudioByUserIdSuccess = createAction(
+  '[Audio] Delete Audio by UserId Success',
+  props<{ userId: number }>()
+);
+export const deleteAudioByUserIdFailure = createAction(
+  '[Audio] Delete Audio by UserId Failure',
   props<{ error: string }>()
 );

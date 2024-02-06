@@ -1,0 +1,216 @@
+<form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="name" class="col-form-label"> Name: </label>
+    <input
+      type="text"
+      formControlName="name"
+      [classList]="[
+        'form-control ',
+        userForm.get('name')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="name"
+      placeholder="name..."
+    />
+    <span
+      *ngIf="userForm.get('name')?.hasError('required')"
+      class="text-danger"
+    >
+      Name is Required
+    </span>
+    <span
+      *ngIf="userForm.get('name')?.hasError('minlength')"
+      class="text-danger"
+      >Name's minimum amount of symbols is 3 symbols
+    </span>
+    <span
+      *ngIf="userForm.get('name')?.hasError('maxlength')"
+      class="text-danger"
+      >You have reached to maximum limit of symbols. Name's max length is 70
+      symbols
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="col-form-label">Email:</label>
+    <input
+      type="text"
+      formControlName="email"
+      [classList]="[
+        'form-control ',
+        userForm.get('email')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="email"
+      placeholder="email..."
+    />
+    <span
+      *ngIf="userForm.get('email')?.hasError('required')"
+      class="text-danger"
+    >
+      Email is Required
+    </span>
+    <span *ngIf="userForm.get('email')?.hasError('email')" class="text-danger">
+      Email is not correct. Example: example@email.com
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="col-form-label">Password:</label>
+    <div class="d-flex">
+      <input
+        formControlName="password"
+        [type]="isPasswordShown ? 'text' : 'password'"
+        [classList]="[
+          'form-control ',
+          userForm.get('email')?.invalid
+            ? 'border border-danger'
+            : 'border border-info'
+        ]"
+        id="password"
+        name="password"
+        placeholder="password..."
+        value=""
+        autocomplete="no"
+      />
+      <span class="input-group-text">
+        <app-show-password-icon
+          [showPassword]="showPassword.bind(this)"
+        ></app-show-password-icon>
+      </span>
+    </div>
+    <span
+      *ngIf="userForm.get('password')?.hasError('required')"
+      class="text-danger"
+    >
+      Password is required
+    </span>
+    <span
+      class="text-danger"
+      *ngIf="userForm.get('password')?.hasError('pattern')"
+    >
+      Password is not correct. Password must contain minimum eight characters,
+      at least one uppercase and lowercase letter, number, and special character
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="birthDate" class="col-form-label">Birth Date:</label>
+    <input
+      formControlName="birthDate"
+      type="date"
+      [classList]="[
+        'form-control ',
+        userForm.get('birthDate')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+    />
+    <span
+      *ngIf="userForm.get('birthDate')?.getError('required')"
+      class="text-danger"
+    >
+      Birth Date is required
+    </span>
+    <span
+      *ngIf="userForm.get('birthDate')?.getError('invalidBirthDate')"
+      class="text-danger"
+    >
+      You are suppose to be older than 14 to register on this website
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="col-form-label"> Description: </label>
+    <textarea
+      formControlName="description"
+      [classList]="[
+        'form-control ',
+        userForm.get('description')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="description"
+      placeholder="Tell about you're self"
+      rows="10"
+    ></textarea>
+    <span
+      *ngIf="userForm.get('description')?.getError('required')"
+      class="text-danger"
+    >
+      Description is required
+    </span>
+    <span
+      *ngIf="userForm.get('description')?.getError('maxlength')"
+      class="text-danger"
+    >
+      Description should be less than 500 symbols
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="mobile" class="col-form-label"> Mobile: </label>
+    <input
+      type="text"
+      formControlName="mobile"
+      [classList]="[
+        'form-control ',
+        userForm.get('mobile')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="mobile"
+      placeholder="mobile..."
+    />
+    <span
+      *ngIf="userForm.get('mobile')?.hasError('required')"
+      class="text-danger"
+    >
+      Mobile is Required
+    </span>
+    <span
+      *ngIf="userForm.get('mobile')?.hasError('minlength')"
+      class="text-danger"
+      >Mobile's minimum amount of symbols is 4 symbols
+    </span>
+    <span
+      *ngIf="userForm.get('mobile')?.hasError('maxlength')"
+      class="text-danger"
+      >You have reached to maximum limit of symbols. Mobile's max length is 15
+      symbols
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="address" class="col-form-label"> Address: </label>
+    <input
+      type="text"
+      formControlName="address"
+      [classList]="[
+        'form-control ',
+        userForm.get('address')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="address"
+      placeholder="address..."
+    />
+    <span
+      *ngIf="userForm.get('address')?.hasError('maxlength')"
+      class="text-danger"
+      >You have reached to maximum limit of symbols. Address's max length is 50
+      symbols
+    </span>
+  </div>
+  <div class="input-group">
+    <input
+      type="file"
+      formControlName="photo"
+      class="form-control border border-info"
+      (change)="onImagePicked($event)"
+    />
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Close
+    </button>
+    <button type="submit" class="btn btn-primary">Edit</button>
+  </div>
+</form>

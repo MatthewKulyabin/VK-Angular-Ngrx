@@ -4,5 +4,5 @@ export interface PostInterface {
   header: string;
   title: string;
   text: string;
-  photo: any;
+  photo?: any;
 }

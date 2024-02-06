@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 
 import * as UsersActions from './actions';
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 import { UsersService } from '../../services/users.service';
 
 @Injectable()
@@ -27,9 +27,10 @@ export class UsersEffects {
     return this.actions$.pipe(
       ofType(UsersActions.patchPhoto),
       switchMap((action) => {
-        console.log('action', action);
         return this.userService.patchPhoto(action.id, action.photo).pipe(
-          map((user) => UsersActions.patchPhotoSuccess({ user })),
+          map((user) => {
+            return UsersActions.patchPhotoSuccess({ user });
+          }),
           catchError((error) => of(UsersActions.patchPhotoFailure({ error })))
         );
       })

@@ -1,0 +1,94 @@
+<div class="mb-3">
+  <div class="p-1">
+    <h3>Messages</h3>
+  </div>
+  <div>
+    <form [formGroup]="searchForm" class="input-group mb-3">
+      <input
+        formControlName="search"
+        type="text"
+        class="form-control border border-dark"
+        placeholder="Search a conversation"
+        (keydown.enter)="showResult()"
+        (keydown.escape)="closeResult()"
+      />
+    </form>
+  </div>
+
+  <div class="overflow-y-scroll overflow-x-hidden" style="height: 650px">
+    <ng-container *ngIf="!foundUsers">
+      <div class="pb-3 d-flex flex-column" *ngFor="let user of users$ | async">
+        <ng-container
+          *ngIf="user?.id && user.id !== localStorageSercice.getCurrentUserId()"
+        >
+          <div
+            class="d-flex pt-3 pb-3"
+            (click)="chooseDiolog(user.id)"
+            role="button"
+          >
+            <div class="w-100">
+              <div class="d-flex">
+                <app-avatar
+                  class="rounded-circle shadow avatar-sm"
+                  [src]="user.photo"
+                ></app-avatar>
+                <div>
+                  <h6 class="margin-auto ps-1">{{ user.name }}</h6>
+                  <div class="d-flex flex-row mt-1" style="height: 50px">
+                    <span class="ms-4 margin-auto fs-13 overflow-y-hidden">{{
+                      (getLastMessage(user.id) | async)?.lastMessage
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0 margin-auto left-side__message-time">
+              <div class="d-flex flex-column">
+                <p class="text-muted text-right fs-13 mb-2">
+                  {{ (getLastMessage(user.id) | async)?.lastMessageTime }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="foundUsers">
+      <div class="pb-3 d-flex flex-column" *ngFor="let user of foundUsers">
+        <ng-container
+          *ngIf="user?.id && user.id !== localStorageSercice.getCurrentUserId()"
+        >
+          <div
+            class="d-flex pt-3 pb-3"
+            (click)="chooseDiolog(user.id)"
+            role="button"
+          >
+            <div class="w-100">
+              <div class="d-flex">
+                <app-avatar
+                  class="rounded-circle shadow avatar-sm"
+                  [src]="user.photo"
+                ></app-avatar>
+                <div>
+                  <h6 class="margin-auto ps-1">{{ user.name }}</h6>
+                  <div class="d-flex flex-row mt-1" style="height: 50px">
+                    <span class="ms-4 margin-auto fs-13 overflow-y-hidden">{{
+                      (getLastMessage(user.id) | async)?.lastMessage
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0 margin-auto left-side__message-time">
+              <div class="d-flex flex-column">
+                <p class="text-muted text-right fs-13 mb-2">
+                  {{ (getLastMessage(user.id) | async)?.lastMessageTime }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>

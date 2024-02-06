@@ -13,61 +13,73 @@
     </nav>
   </header>
   <main
-    class="d-flex flex-column align-items-center justify-content-center w-25 mx-auto h-75"
+    class="d-flex flex-column align-items-center justify-content-center w-100 h-75"
   >
-    {{ loginForm.value | json }}
-    <h1>Log In</h1>
-    <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <h1 class="display-5 fw-bold">Log In</h1>
+    <form class="w-50" [formGroup]="loginForm" (ngSubmit)="loginUser()">
       <input
         type="email"
         formControlName="email"
-        class="form-control border border-dark p-3"
+        [classList]="[
+          'form-control border-2 p-3 fw-bold ',
+          loginForm.get('email')?.invalid ? ' border-danger ' : ' border-dark '
+        ]"
         placeholder="Email..."
       />
       <span
-        class="text-danger"
+        class="text-danger fw-bold"
         *ngIf="loginForm.get('email')?.hasError('required')"
       >
         Email is Required
       </span>
       <span
-        class="text-danger"
+        class="text-danger fw-bold"
         *ngIf="loginForm.get('email')?.hasError('email')"
       >
         Email is not correct. Example: example@email.com
       </span>
-      <span class="text-danger" *ngIf="loginError">{{ loginError }}</span>
+      <span class="text-danger fw-bold" *ngIf="loginError">{{
+        loginError
+      }}</span>
       <input
         type="password"
         formControlName="password"
-        class="form-control border border-dark p-3 mt-3"
+        [classList]="[
+          'form-control border-2 p-3 mt-3 fw-bold ',
+          loginForm.get('password')?.invalid
+            ? ' border-danger '
+            : ' border-dark '
+        ]"
         placeholder="Password..."
+        autocomplete="on"
       />
       <span
-        class="text-danger"
+        class="text-danger fw-bold"
         *ngIf="loginForm.get('password')?.hasError('required')"
       >
         Password is required
       </span>
       <span
-        class="text-danger"
+        class="text-danger fw-bold"
         *ngIf="loginForm.get('password')?.hasError('pattern')"
       >
         Password is not correct. Password must contain minimum eight characters,
         at least one uppercase and lowercase letter, number, and special
         character
       </span>
-      <span class="text-danger" *ngIf="loginError">{{ loginError }}</span>
+      <span class="text-danger fw-bold" *ngIf="loginError">{{
+        loginError
+      }}</span>
       <section class="d-flex justify-content-between w-100">
         <button
           type="submit"
-          class="btn btn-dark mt-3 p-3 w-25"
+          class="btn btn-primary mt-3 p-3 w-50 fw-bold"
           [disabled]="loginForm.invalid"
         >
           Log In
         </button>
-        <button type="button" class="btn btn-dark mt-3 p-3 w-25">
-          Sign Up
+        <button type="button" class="btn btn-dark mt-3 p-3 w-50">
+          <a class="nav-link fw-bold" routerLink="/signup">Sign Up</a>
         </button>
       </section>
     </form>

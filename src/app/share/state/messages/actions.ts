@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { MessageInterface } from '../../types/message-interface';
 
 // [Messages] Get Messages
@@ -51,5 +52,19 @@ export const deleteMessageSuccess = createAction(
 );
 export const deleteMessageFailure = createAction(
   '[Messages] Delete Message failure',
+  props<{ error: string }>()
+);
+
+// [Messages] Delete Messages by UserId
+export const deleteMessagesByUserId = createAction(
+  '[Messages] Delete Messages by UserId',
+  props<{ userId: number; ids: Array<number> }>()
+);
+export const deleteMessagesByUserIdSuccess = createAction(
+  '[Messages] Delete Messages by UserId Success',
+  props<{ userId: number }>()
+);
+export const deleteMessagesByUserIdFailure = createAction(
+  '[Messages] Delete Messages by UserId Failure',
   props<{ error: string }>()
 );

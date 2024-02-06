@@ -1,9 +1,9 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, switchMap, throwError } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 import * as PostsActions from './actions';
 import { PostsService } from 'src/app/share/services/posts.service';
-import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PostsEffects {
@@ -29,7 +29,6 @@ export class PostsEffects {
     return this.actions$.pipe(
       ofType(PostsActions.patchPhoto),
       switchMap((action) => {
-        console.log('action', action);
         return this.postsService.patchPhoto(action.id, action.photo).pipe(
           map((post) => PostsActions.patchPhotoSuccess({ post })),
           catchError((error) => of(PostsActions.patchPhotoFailure({ error })))
@@ -60,7 +59,6 @@ export class PostsEffects {
       switchMap((action) => {
         return this.postsService.editPost(action.post).pipe(
           map((post) => {
-            console.log('Posts Effects', post);
             return PostsActions.editPostSuccess({ post });
           }),
           catchError((error) =>

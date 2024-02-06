@@ -1,0 +1,133 @@
+<div class="container">
+  <div class="d-flex justify-content-around">
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <app-avatar
+            [src]="(currentUser$ | async)?.photo"
+            alt="avatar"
+            class="rounded-circle img-fluid avatar-profile"
+          ></app-avatar>
+          <h5 class="my-3">{{ (currentUser$ | async)?.name }}</h5>
+          <div
+            role="button"
+            class="text-muted mb-1 position-relative"
+            (click)="showUserDescription = !showUserDescription"
+          >
+            {{ (currentUser$ | async)?.description?.slice(0, 25) }}...
+            <p
+              *ngIf="
+                showUserFullDescription((currentUser$ | async)?.description)
+              "
+              class="position-absolute end-0 bottom-0 bg-dark border border-white rounded text-white text-start p-2 dropdown-shadow"
+              style="z-index: 1"
+            >
+              {{ (currentUser$ | async)?.description }}
+            </p>
+          </div>
+          <div
+            class="d-flex justify-content-center mb-2"
+            *ngIf="
+              localStorageService.getCurrentUserId() !==
+              toNumber(this.route.snapshot.paramMap.get('id'))
+            "
+          >
+            <button
+              *ngIf="!(isAlreadyFollowed$ | async)"
+              type="button"
+              class="btn btn-primary"
+              (click)="follow()"
+            >
+              Follow
+            </button>
+            <button
+              *ngIf="isAlreadyFollowed$ | async"
+              type="button"
+              class="btn btn-primary"
+              (click)="unFollow($event)"
+              [attr.isAlreadyFollowed-id]="(isAlreadyFollowed$ | async)?.id"
+            >
+              Unfollow
+            </button>
+            <button
+              (click)="openMessageModal = true"
+              type="button"
+              class="btn btn-outline-primary ms-1"
+            >
+              Message
+            </button>
+            <app-modal
+              modalHeader="Message to {{ (currentUser$ | async)?.name }}"
+              [closeModal]="closeMessageModal.bind(this)"
+              [openModal]="openMessageModal"
+            >
+              <app-message-form
+                [closeMessageModal]="closeMessageModal.bind(this)"
+              ></app-message-form>
+            </app-modal>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Full Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {{ (currentUser$ | async)?.name }}
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {{ (currentUser$ | async)?.email }}
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Birth Date</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {{ (currentUser$ | async)?.birthDate | date : "shortDate" }}
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Mobile</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {{ (currentUser$ | async)?.mobile }}
+              </p>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Address</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {{ (currentUser$ | async)?.address }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

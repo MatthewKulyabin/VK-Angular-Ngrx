@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
+
 import { MessageInterface } from '../types/message-interface';
 import { environment } from 'src/environments/environment';
 
@@ -38,5 +39,13 @@ export class MessagesService {
 
   deleteMessage(id: number): Observable<number> {
     return this.http.delete<number>(this.messageApi + id).pipe(map(() => id));
+  }
+
+  deleteMessagesByUserId(
+    userId: number,
+    ids: Array<number>
+  ): Observable<number> {
+    ids.map((id) => this.http.delete(this.messageApi + id));
+    return of(userId);
   }
 }

@@ -13,11 +13,14 @@ export const reducers = createReducer(
   initialState,
   // [Posts] Get Posts
   on(PostsActions.getPosts, (state) => ({ ...state, isLoading: true })),
-  on(PostsActions.getPostsSuccess, (state, action) => ({
-    ...state,
-    isLoading: false,
-    posts: action.posts,
-  })),
+  on(PostsActions.getPostsSuccess, (state, action) => {
+    let posts = [...action.posts].reverse();
+    return {
+      ...state,
+      isLoading: false,
+      posts,
+    };
+  }),
   on(PostsActions.getPostsFailure, (state, action) => ({
     ...state,
     isLoading: false,

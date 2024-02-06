@@ -1,0 +1,138 @@
+<div class="shadow-line mb-3 chat chat-panel">
+  <div class="p-3">
+    <div class="d-flex">
+      <div class="w-100 d-flex pl-0" *ngIf="messagesDiologUser$ | async">
+        <app-avatar
+          class="rounded-circle shadow avatar-sm"
+          [src]="(messagesDiologUser$ | async)?.photo"
+        ></app-avatar>
+        <div>
+          <a
+            ><p class="mb-0">
+              {{ (messagesDiologUser$ | async)?.name }}
+            </p></a
+          >
+          <p class="text-muted text-small mb-0">
+            {{ getLastMessageDateTime(messagesDiolog$ | async) }}
+          </p>
+        </div>
+      </div>
+      <div class="w-100 d-flex pl-0" *ngIf="!(messagesDiologUser$ | async)">
+        <app-avatar class="rounded-circle shadow avatar-sm"></app-avatar>
+        <div>
+          <a><p class="mb-0">Choose Diolog</p></a>
+          <p class="text-muted text-small mb-0 ms-1">choose diolog</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    #diolog
+    id="diolog"
+    class="d-flex flex-row mb-3 overflow-y-scroll"
+    style="height: 600px"
+  >
+    <div class="w-100 p-3" *ngIf="(messagesDiolog$ | async)?.length">
+      <div *ngFor="let message of messagesDiolog$ | async; let i = index">
+        <div
+          *ngIf="checkNewDate.apply(this, [messagesDiolog$ | async, i])"
+          class="text-center letter-space text-uppercase fs-12 w-100 mb-3"
+        >
+          {{ message.publish_date | date : "mediumDate" }}
+        </div>
+        <div
+          *ngIf="message.receiverId === currentUserId"
+          class="left-chat-message fs-13 mb-2 bg-dark"
+        >
+          <p class="mb-0 text-white">
+            {{ message.message }}
+            <span class="text-white ms-4">{{
+              message.publish_date | date : "shortTime"
+            }}</span>
+          </p>
+        </div>
+        <div
+          *ngIf="message.receiverId !== currentUserId"
+          class="d-flex flex-row-reverse mb-2"
+        >
+          <div class="right-chat-message fs-13 mb-2 bg-primary">
+            <div class="mb-0">
+              <div>
+                {{ message.message }}
+                <span class="text-white ms-4">{{
+                  message.publish_date | date : "shortTime"
+                }}</span>
+                <app-edit-icon
+                  [width]="10"
+                  [height]="10"
+                  [func]="updateMessage.bind(this, message.id)"
+                  class="bottom-0 end-0 m-1"
+                >
+                </app-edit-icon>
+                <app-delete-icon
+                  [width]="10"
+                  [height]="10"
+                  [func]="deleteMessage.bind(this, message.id)"
+                  class="top-0 end-0 m-1"
+                >
+                </app-delete-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <form [formGroup]="messageForm" class="input-group">
+      <input
+        type="text"
+        formControlName="message"
+        [classList]="[
+          'form-control ',
+          messageForm.get('message')?.invalid && receiverUserId
+            ? 'border border-danger'
+            : 'border border-primary'
+        ]"
+        placeholder="Write a message"
+      />
+      <app-delete-icon
+        *ngIf="!isAddMessage"
+        [width]="10"
+        [height]="10"
+        [func]="closeUpdateMessage.bind(this)"
+        class="top-0 start-0 m-1"
+      >
+      </app-delete-icon>
+
+      <button
+        *ngIf="isAddMessage"
+        [disabled]="messageForm.invalid || !receiverUserId"
+        (click)="sendMessage()"
+        class="btn btn-primary"
+      >
+        Send
+      </button>
+      <button
+        *ngIf="!isAddMessage"
+        [disabled]="messageForm.invalid || !receiverUserId"
+        (click)="editMessage()"
+        class="btn btn-primary"
+      >
+        Edit
+      </button>
+    </form>
+    <span
+      *ngIf="messageForm.get('message')?.hasError('required') && receiverUserId"
+      class="ms-2 text-danger fs-12"
+      >Message is Required</span
+    >
+    <span
+      *ngIf="
+        !messageForm.get('message')?.hasError('required') || !receiverUserId
+      "
+    >
+      &nbsp;
+    </span>
+  </div>
+</div>

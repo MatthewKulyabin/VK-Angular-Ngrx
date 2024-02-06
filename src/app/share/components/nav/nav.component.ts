@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local.storage.service';
 
 @Component({
   selector: 'app-nav',
@@ -8,9 +9,14 @@ import { Router } from '@angular/router';
 })
 export class NavComponent {
   currentRoute?: string;
+  currentUserRoute: string;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService
+  ) {
     this.currentRoute = router.url;
+    this.currentUserRoute = `/profile/${localStorageService.getCurrentUserId()}`;
   }
 
   getClass(url: string): string {

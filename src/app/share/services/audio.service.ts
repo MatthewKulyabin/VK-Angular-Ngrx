@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
+
 import { AudioInterface } from '../types/audio-interface';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +18,6 @@ export class AudioService {
   }
 
   patchSrc(audioId: number, src: FormData): Observable<AudioInterface> {
-    console.log('PostsService', audioId);
     return this.http.patch<AudioInterface>(this.audioApi + audioId, src);
   }
 
@@ -37,5 +37,10 @@ export class AudioService {
 
   deleteAudio(id: number): Observable<number> {
     return this.http.delete<number>(this.audioApi + id).pipe(map(() => id));
+  }
+
+  deleteAudioByUserId(userId: number, ids: Array<number>): Observable<number> {
+    ids.map((id) => this.http.delete(this.audioApi + id));
+    return of(userId);
   }
 }

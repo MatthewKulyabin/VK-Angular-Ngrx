@@ -1,9 +1,4 @@
-import {
-  AbstractControl,
-  FormControl,
-  ValidationErrors,
-  ValidatorFn,
-} from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export const birthDateValidation = (
   control: AbstractControl

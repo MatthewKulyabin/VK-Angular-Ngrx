@@ -1,0 +1,68 @@
+<form [formGroup]="postForm" novalidate (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="title" class="col-form-label"> Title: </label>
+    <input
+      type="text"
+      formControlName="title"
+      [classList]="[
+        'form-control ',
+        postForm.get('title')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="title"
+      placeholder="title..."
+    />
+    <span
+      *ngIf="postForm.get('title')?.hasError('required')"
+      class="text-danger"
+    >
+      Title is Required
+    </span>
+    <span
+      *ngIf="postForm.get('title')?.hasError('maxlength')"
+      class="text-danger"
+      >You have reached to maximum limit of symbols. Title's max length is 25
+      symbols
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="text" class="col-form-label">Text:</label>
+    <textarea
+      formControlName="text"
+      [classList]="[
+        'form-control ',
+        postForm.get('text')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="text"
+      placeholder="text..."
+      rows="10"
+    ></textarea>
+    <span
+      *ngIf="postForm.get('text')?.hasError('required')"
+      class="text-danger"
+    >
+      Text is Required
+    </span>
+  </div>
+  <div class="input-group">
+    <input
+      type="file"
+      formControlName="photo"
+      class="form-control border border-info"
+      (change)="onImagePicked($event)"
+    />
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onCloseModal()">
+      Close
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">
+      <span *ngIf="postFormMethod === 'ADD'">Add Post</span>
+      <span *ngIf="postFormMethod === 'EDIT'">Edit Post</span>
+    </button>
+  </div>
+</form>

@@ -57,5 +57,17 @@ export const reducers = createReducer(
   on(MessagesActions.deleteMessageFailure, (state, action) => ({
     ...state,
     error: action.error,
+  })),
+
+  // [Messages] Delete Messages by UserId
+  on(MessagesActions.deleteMessagesByUserIdSuccess, (state, action) => ({
+    ...state,
+    messages: [
+      ...state.messages.filter((message) => message.userId !== action.userId),
+    ],
+  })),
+  on(MessagesActions.deleteMessagesByUserIdFailure, (state, action) => ({
+    ...state,
+    error: action.error,
   }))
 );

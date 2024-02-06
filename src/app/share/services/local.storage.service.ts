@@ -15,4 +15,8 @@ export class LocalStorageService {
     const currentUserId = localStorage.getItem(this.CURRENT_USER_ID);
     return Number(currentUserId);
   }
+
+  deleteCurrentUserId(): void {
+    localStorage.removeItem(this.CURRENT_USER_ID);
+  }
 }

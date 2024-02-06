@@ -27,10 +27,8 @@ export class AudioEffects {
     return this.actions$.pipe(
       ofType(AudioActions.patchSrc),
       switchMap((action) => {
-        console.log('action', action);
         return this.audioService.patchSrc(action.id, action.src).pipe(
           map((audio) => {
-            console.log(audio, 'from effects');
             return AudioActions.patchSrcSuccess({ audio });
           }),
           catchError((error) => of(AudioActions.patchSrcFailure({ error })))
@@ -75,6 +73,22 @@ export class AudioEffects {
           map((id) => AudioActions.deleteAudioSuccess({ id })),
           catchError((error) =>
             of(AudioActions.deleteAudioFailure({ error: error.message }))
+          )
+        )
+      )
+    );
+  });
+
+  deleteAudioByUserId$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AudioActions.deleteAudioByUserId),
+      switchMap((action) =>
+        this.audioService.deleteAudioByUserId(action.userId, action.ids).pipe(
+          map((userId) => AudioActions.deleteAudioByUserIdSuccess({ userId })),
+          catchError((error) =>
+            of(
+              AudioActions.deleteAudioByUserIdFailure({ error: error.message })
+            )
           )
         )
       )

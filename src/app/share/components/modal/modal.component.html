@@ -1,0 +1,17 @@
+<div class="modal fade mt-5" [ngClass]="openModal ? ' show d-block ' : ''">
+  <div class="modal-dialog modal-xl">
+    <div
+      class="modal-content border border-dark rounded"
+      style="box-shadow: 0 0 75px black"
+    >
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ modalHeader }}
+        </h1>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

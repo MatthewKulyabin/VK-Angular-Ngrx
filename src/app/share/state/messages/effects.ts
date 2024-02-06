@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 
 import * as MessagesActions from './actions';
 import { MessagesService } from '../../services/messages.service';
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 
 @Injectable()
 export class MessagesEffects {
@@ -64,6 +64,28 @@ export class MessagesEffects {
             of(MessagesActions.deleteMessageFailure({ error: error.message }))
           )
         )
+      )
+    );
+  });
+
+  deleteMessages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(MessagesActions.deleteMessagesByUserId),
+      switchMap((action) =>
+        this.messagesService
+          .deleteMessagesByUserId(action.userId, action.ids)
+          .pipe(
+            map((userId) =>
+              MessagesActions.deleteMessagesByUserIdSuccess({ userId })
+            ),
+            catchError((error) =>
+              of(
+                MessagesActions.deleteMessagesByUserIdFailure({
+                  error: error.message,
+                })
+              )
+            )
+          )
       )
     );
   });

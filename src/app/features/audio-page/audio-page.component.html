@@ -1,136 +1,56 @@
 <app-header></app-header>
 
-<main class="main__profile">
+<main class="main__profile h-100">
   <app-nav></app-nav>
   <section class="p-4">
     <section class="section__profile flex-column">
       <app-audio #audio></app-audio>
     </section>
     <section class="main__profile__main">
-      <button class="btn btn-dark">My Audio</button>
+      <div class="d-flex flex-direction-column justify-content-between">
+        <button class="btn btn-dark" (click)="chooseMyAudio()">My Audio</button>
+        <form [formGroup]="searchForm" role="search">
+          <input
+            class="form-control border-dark"
+            type="search"
+            placeholder="Search"
+            formControlName="search"
+            (keydown.enter)="showResult()"
+            (keydown.escape)="closeResult()"
+          />
+        </form>
+      </div>
       <button (click)="openModal = true" class="btn btn-dark">
         Add New Audio
       </button>
-      <div class="modal fade mt-5" [ngClass]="openModal ? 'show d-block' : ''">
-        <div class="modal-dialog modal-xl">
-          <div
-            class="modal-content border border-dark rounded"
-            style="box-shadow: 0 0 75px black"
-          >
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Add Audio</h1>
-              <button
-                type="button"
-                class="btn-close"
-                (click)="closeModal()"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form [formGroup]="audioForm" novalidate (ngSubmit)="submit()">
-                <div class="mb-3">
-                  <label for="title" class="col-form-label"> Title: </label>
-                  <input
-                    type="text"
-                    formControlName="title"
-                    [classList]="[
-                      'form-control ',
-                      audioForm.get('title')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="title"
-                    placeholder="title..."
-                  />
-                  <span
-                    *ngIf="audioForm.get('title')?.hasError('required')"
-                    class="text-danger"
-                  >
-                    Title is Required
-                  </span>
-                  <span
-                    *ngIf="audioForm.get('title')?.hasError('maxlength')"
-                    class="text-danger"
-                  >
-                    You have reached to maximum limit of symbols. Title's max
-                    length is 25 symbols
-                  </span>
-                </div>
-                <div class="mb-5">
-                  <label for="author" class="col-form-label"> Author: </label>
-                  <input
-                    type="text"
-                    formControlName="author"
-                    [classList]="[
-                      'form-control ',
-                      audioForm.get('author')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="author"
-                    placeholder="author..."
-                  />
-                  <span
-                    *ngIf="audioForm.get('author')?.hasError('required')"
-                    class="text-danger"
-                  >
-                    Author is Required
-                  </span>
-                  <span
-                    *ngIf="audioForm.get('author')?.hasError('maxlength')"
-                    class="text-danger"
-                  >
-                    You have reached to maximum limit of symbols. Author's max
-                    length is 25 symbols
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input
-                    type="file"
-                    formControlName="src"
-                    [classList]="[
-                      'form-control ',
-                      audioForm.get('author')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    (change)="onImagePicked($event)"
-                  />
-                </div>
-                <span
-                  *ngIf="audioForm.get('src')?.hasError('required')"
-                  class="text-danger"
-                >
-                  Audio File is Required
-                </span>
-                <div class="modal-footer">
-                  <button
-                    type="submit"
-                    class="btn btn-secondary"
-                    (click)="closeModal()"
-                  >
-                    Close
-                  </button>
-                  <button
-                    [disabled]="audioForm.invalid"
-                    type="submit"
-                    class="btn btn-primary"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+      <div class="position-absolute">
+        <app-modal
+          [openModal]="openModal"
+          [closeModal]="closeModal.bind(this)"
+          modalHeader="Add Audio"
+        >
+          <app-audio-form [closeModal]="closeModal.bind(this)"></app-audio-form
+        ></app-modal>
+      </div>
+
+      <div>
+        <ng-container *ngIf="!(foundAudio$ | async)">
+          <app-audio-list
+            (chooseAudio)="audio.onChooseAudio($event)"
+            [audioList]="audioListByUserId$"
+          ></app-audio-list
+        ></ng-container>
+        <ng-container *ngIf="foundAudio$ | async">
+          <app-audio-list
+            (chooseAudio)="audio.onChooseAudio($event)"
+            [audioList]="foundAudio$"
+          ></app-audio-list
+        ></ng-container>
       </div>
       <div>
-        <app-audio-list
-          (chooseAudio)="audio.onChooseAudio($event)"
-          [audioList]="audioListByUserId$"
-        ></app-audio-list>
-      </div>
-      <div>
-        <app-friends-list></app-friends-list>
+        <app-followers-list
+          [chooseFollowerAudio]="chooseFollowerAudio.bind(this)"
+        ></app-followers-list>
       </div>
     </section>
   </section>

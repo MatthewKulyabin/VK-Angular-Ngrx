@@ -1,4 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
+
 import { UsersStateInterface } from './types/users-state-interface';
 import * as UsersActions from './actions';
 
@@ -28,10 +29,10 @@ export const reducers = createReducer(
   on(UsersActions.patchPhoto, (state, action) => ({ ...state })),
   on(UsersActions.patchPhotoSuccess, (state, action) => ({
     ...state,
-    posts: [
-      ...state.users.map((user) =>
-        user.id === action.user.id ? action.user : user
-      ),
+    users: [
+      ...state.users.map((user) => {
+        return user.id === action.user.id ? action.user : user;
+      }),
     ],
   })),
   on(UsersActions.patchPhotoFailure, (state, action) => ({

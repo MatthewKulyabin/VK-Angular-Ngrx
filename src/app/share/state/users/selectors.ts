@@ -1,32 +1,24 @@
 import { createSelector } from '@ngrx/store';
+
 import { AppStateInterface } from '../app-state-interface';
-import {
-  messagesIsLoadingSelector,
-  messagesSelectorByUserId,
-} from '../messages/selectors';
+import { messagesSelectorByUserId } from '../messages/selectors';
 import { UserInterface } from '../../types/user-interface';
 
-export const selectFeature = (state: AppStateInterface) => state.users;
-export const selectMessages = (state: AppStateInterface) => state.messages;
+export const selectUsers = (state: AppStateInterface) => state.users;
 
-export const usersSelector = createSelector(
-  selectFeature,
-  (state) => state.users
-);
+export const usersSelector = createSelector(selectUsers, (state) => {
+  return state.users;
+});
 
 export const userSelectorById = (id: number) =>
   createSelector(
-    selectFeature,
+    selectUsers,
     (state) => state.users.find((user) => user.id === id) as UserInterface
   );
 
 export const usersSelectorByIds = (userId: number) =>
-  // createSelector(selectFeature, (state) => {
-  //   console.log(ids.map((id) => state.users.find((user) => user.id === id)));
-  //   return ids.map((id) => state.users.find((user) => user.id === id));
-  // });
   createSelector(
-    selectFeature,
+    selectUsers,
     messagesSelectorByUserId(userId),
     (state, messages) => {
       const messagesUserIds = new Set(
@@ -43,6 +35,16 @@ export const usersSelectorByIds = (userId: number) =>
       ) as UserInterface[];
     }
   );
-// createSelector(selectFeature, (state) =>
-//   state.users.filter((user) => user.id === userId)
-// );
+
+export const usersSelectorByName = (name: string) =>
+  createSelector(selectUsers, (state) =>
+    state.users.filter((user) =>
+      user.name.toLowerCase().includes(name.toLowerCase())
+    )
+  );
+
+export const userNameSelectorById = (id: number) =>
+  createSelector(
+    selectUsers,
+    (state) => state.users.find((user) => user.id === id)?.name
+  );

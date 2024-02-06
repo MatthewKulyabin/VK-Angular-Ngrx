@@ -1,398 +1,57 @@
 <app-header></app-header>
 
-<main class="main__profile">
+<main class="main__profile h-100">
   <app-nav></app-nav>
-  <section class="p-4">
+  <section *ngIf="currentUser$ | async" class="p-4">
     <section class="section__profile position-relative">
-      <div class="modal fade mt-5" [ngClass]="openModal ? 'show d-block' : ''">
-        <div class="modal-dialog modal-xl">
-          <div
-            class="modal-content border border-dark rounded"
-            style="box-shadow: 0 0 75px black"
-          >
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
-              <button
-                type="button"
-                class="btn-close"
-                (click)="closeModal()"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                  <label for="name" class="col-form-label"> Name: </label>
-                  <input
-                    type="text"
-                    formControlName="name"
-                    [classList]="[
-                      'form-control ',
-                      userForm.get('name')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="name"
-                    placeholder="name..."
-                  />
-                  <span
-                    *ngIf="userForm.get('name')?.hasError('required')"
-                    class="text-danger"
-                  >
-                    Name is Required
-                  </span>
-                  <span
-                    *ngIf="userForm.get('name')?.hasError('minlength')"
-                    class="text-danger"
-                    >Name's minimum amount of symbols is 3 symbols
-                  </span>
-                  <span
-                    *ngIf="userForm.get('name')?.hasError('maxlength')"
-                    class="text-danger"
-                    >You have reached to maximum limit of symbols. Name's max
-                    length is 70 symbols
-                  </span>
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="col-form-label">Email:</label>
-                  <input
-                    type="text"
-                    formControlName="email"
-                    [classList]="[
-                      'form-control ',
-                      userForm.get('email')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="email"
-                    placeholder="email..."
-                  />
-                  <span
-                    *ngIf="userForm.get('email')?.hasError('required')"
-                    class="text-danger"
-                  >
-                    Email is Required
-                  </span>
-                  <span
-                    *ngIf="userForm.get('email')?.hasError('email')"
-                    class="text-danger"
-                  >
-                    Email is not correct. Example: example@email.com
-                  </span>
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="col-form-label">Password:</label>
-                  <div class="d-flex">
-                    <input
-                      formControlName="password"
-                      [type]="showPassword ? 'text' : 'password'"
-                      [classList]="[
-                        'form-control ',
-                        userForm.get('email')?.invalid
-                          ? 'border border-danger'
-                          : 'border border-info'
-                      ]"
-                      id="password"
-                      name="password"
-                      placeholder="password..."
-                      value=""
-                    />
-                    <span class="input-group-text">
-                      <svg
-                        role="button"
-                        (click)="showPassword = !showPassword"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="bi bi-eye"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"
-                        />
-                        <path
-                          d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                  <span
-                    *ngIf="userForm.get('password')?.hasError('required')"
-                    class="text-danger"
-                  >
-                    Password is required
-                  </span>
-                  <span
-                    class="text-danger"
-                    *ngIf="userForm.get('password')?.hasError('pattern')"
-                  >
-                    Password is not correct. Password must contain minimum eight
-                    characters, at least one uppercase and lowercase letter,
-                    number, and special character
-                  </span>
-                </div>
-                <div class="mb-3">
-                  <label for="birthDate" class="col-form-label"
-                    >Birth Date:</label
-                  >
-                  <input
-                    formControlName="birthDate"
-                    type="date"
-                    [classList]="[
-                      'form-control ',
-                      userForm.get('birthDate')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                  />
-                  <span
-                    *ngIf="userForm.get('birthDate')?.getError('required')"
-                    class="text-danger"
-                  >
-                    Birth Date is required
-                  </span>
-                  <span
-                    *ngIf="
-                      userForm.get('birthDate')?.getError('invalidBirthDate')
-                    "
-                    class="text-danger"
-                  >
-                    You are suppose to be older than 14 to register on this
-                    website
-                  </span>
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="col-form-label">
-                    Description:
-                  </label>
-                  <textarea
-                    formControlName="description"
-                    [classList]="[
-                      'form-control ',
-                      userForm.get('description')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="text"
-                    placeholder="Tell about you're self"
-                    rows="10"
-                  ></textarea>
-                  <span
-                    *ngIf="userForm.get('description')?.getError('required')"
-                    class="text-danger"
-                  >
-                    Description is required
-                  </span>
-                  <span
-                    *ngIf="userForm.get('description')?.getError('maxlength')"
-                    class="text-danger"
-                  >
-                    Description should be less than 500 symbols
-                  </span>
-                </div>
-                <div class="mb-3">
-                  <label for="mobile" class="col-form-label"> Mobile: </label>
-                  <input
-                    type="text"
-                    formControlName="mobile"
-                    [classList]="[
-                      'form-control ',
-                      userForm.get('mobile')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="title"
-                    placeholder="title..."
-                  />
-                  <span
-                    *ngIf="userForm.get('mobile')?.hasError('required')"
-                    class="text-danger"
-                  >
-                    Mobile is Required
-                  </span>
-                  <span
-                    *ngIf="userForm.get('mobile')?.hasError('minlength')"
-                    class="text-danger"
-                    >Mobile's minimum amount of symbols is 4 symbols
-                  </span>
-                  <span
-                    *ngIf="userForm.get('mobile')?.hasError('maxlength')"
-                    class="text-danger"
-                    >You have reached to maximum limit of symbols. Mobile's max
-                    length is 15 symbols
-                  </span>
-                </div>
-                <div class="mb-3">
-                  <label for="address" class="col-form-label"> Address: </label>
-                  <input
-                    type="text"
-                    formControlName="address"
-                    [classList]="[
-                      'form-control ',
-                      userForm.get('address')?.invalid
-                        ? 'border border-danger'
-                        : 'border border-info'
-                    ]"
-                    id="title"
-                    placeholder="title..."
-                  />
-                  <span
-                    *ngIf="userForm.get('address')?.hasError('maxlength')"
-                    class="text-danger"
-                    >You have reached to maximum limit of symbols. Address's max
-                    length is 50 symbols
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input
-                    type="file"
-                    formControlName="photo"
-                    class="form-control border border-info"
-                    (change)="onImagePicked($event)"
-                  />
-                </div>
+      <app-modal
+        modalHeader="Edit User"
+        [openModal]="openModal"
+        [closeModal]="closeModal.bind(this)"
+      >
+        <app-edit-user-form
+          [currentUser$]="currentUser$"
+          [openModal]="openModal"
+          [onOpenModal]="onOpenModal.bind(this)"
+          [closeModal]="closeModal.bind(this)"
+        ></app-edit-user-form>
+      </app-modal>
 
-                <div class="modal-footer">
-                  <button
-                    type="submit"
-                    class="btn btn-secondary"
-                    (click)="closeModal()"
-                  >
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">Edit</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+      <div class="w-100">
+        <app-user [currentUser$]="currentUser$"></app-user>
       </div>
 
-      <div class="container">
-        <div class="d-flex justify-content-around">
-          <div class="col-lg-4">
-            <div class="card mb-4">
-              <div class="card-body text-center">
-                <img
-                  [src]="(currentUser$ | async)?.photo"
-                  alt="avatar"
-                  class="rounded-circle img-fluid avatar-profile"
-                />
-                <h5 class="my-3">{{ (currentUser$ | async)?.name }}</h5>
-                <p class="text-muted mb-1">Full Stack Developer</p>
-                <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-                <div class="d-flex justify-content-center mb-2">
-                  <button type="button" class="btn btn-primary">Follow</button>
-                  <button type="button" class="btn btn-outline-primary ms-1">
-                    Message
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8">
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Full Name</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">
-                      {{ (currentUser$ | async)?.name }}
-                    </p>
-                  </div>
-                </div>
-                <hr />
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Email</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">
-                      {{ (currentUser$ | async)?.email }}
-                    </p>
-                  </div>
-                </div>
-                <hr />
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Age</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">
-                      {{ (currentUser$ | async)?.age }}
-                    </p>
-                  </div>
-                </div>
-                <hr />
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Mobile</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">(098) 765-4321</p>
-                  </div>
-                </div>
-                <hr />
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Address</p>
-                  </div>
-                  <div class="col-sm-9">
-                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ng-container *ngIf="isProfileOfCurrentUser()">
+        <app-edit-icon
+          class="top-0 start-0"
+          [func]="onOpenModal.bind(this)"
+        ></app-edit-icon>
 
-      <svg
-        (click)="onOpenModal()"
-        xmlns="http://www.w3.org/2000/svg"
-        width="25"
-        height="25"
-        fill="currentColor"
-        class="bi bi-pencil-square position-absolute"
-        role="button"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
-        />
-        <path
-          fill-rule="evenodd"
-          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-        />
-      </svg>
-      <svg
-        (click)="deleteUser()"
-        xmlns="http://www.w3.org/2000/svg"
-        width="25"
-        height="25"
-        fill="currentColor"
-        class="bi bi-x-square position-absolute top-0 end-0"
-        role="button"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-        />
-        <path
-          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-        />
-      </svg>
+        <app-delete-icon
+          class="top-0 end-0"
+          [func]="deleteUser.bind(this)"
+        ></app-delete-icon>
+      </ng-container>
     </section>
-    <section class="main__profile__main">
+    <div
+      *ngIf="!isProfileOfCurrentUser()"
+      class="border border-black rounded-circle"
+    ></div>
+    <section class="main__profile__main position-relative">
       <app-posts-list></app-posts-list>
-      <!-- <div *ngIf="!(isLoading$ | async)" class="vh-100 mx-auto m-4">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div> -->
-      <app-friends-list></app-friends-list>
+      <app-followers-list
+        [chooseFollowerProfile]="chooseFollowerProfile.bind(this)"
+      ></app-followers-list>
     </section>
+  </section>
+  <section
+    *ngIf="!(currentUser$ | async)"
+    class="p-4 d-flex flex-column align-items-center justify-content-center w-25 mx-auto h-75 mt-5"
+  >
+    <div class="text-center">
+      <p class="fs-3"><span class="text-danger">Opps!</span> No Such User.</p>
+      <p class="lead">The user you’re looking for doesn’t exist.</p>
+      <a [routerLink]="goHome()" class="btn btn-primary">Go Home</a>
+    </div>
   </section>
 </main>

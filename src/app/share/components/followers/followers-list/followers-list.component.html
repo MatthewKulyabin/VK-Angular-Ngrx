@@ -1,0 +1,12 @@
+<section class="border p-2">
+  <h2>You Follow</h2>
+  <section class="mt-4 friends__section border border-dark" *ngIf="followers$">
+    <ng-container *ngFor="let follower of followers$ | async">
+      <app-follower
+        [followerUserId]="follower.userId"
+        [chooseFollowerAudio]="chooseFollowerAudio"
+        [chooseFollowerProfile]="chooseFollowerProfile"
+      ></app-follower>
+    </ng-container>
+  </section>
+</section>

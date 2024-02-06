@@ -1,0 +1,86 @@
+<form [formGroup]="audioForm" novalidate (ngSubmit)="submit()">
+  <div class="mb-3">
+    <label for="title" class="col-form-label"> Title: </label>
+    <input
+      type="text"
+      formControlName="title"
+      [classList]="[
+        'form-control ',
+        audioForm.get('title')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="title"
+      placeholder="title..."
+    />
+    <span
+      *ngIf="audioForm.get('title')?.hasError('required')"
+      class="text-danger"
+    >
+      Title is Required
+    </span>
+    <span
+      *ngIf="audioForm.get('title')?.hasError('maxlength')"
+      class="text-danger"
+    >
+      You have reached to maximum limit of symbols. Title's max length is 25
+      symbols
+    </span>
+  </div>
+  <div class="mb-5">
+    <label for="author" class="col-form-label"> Author: </label>
+    <input
+      type="text"
+      formControlName="author"
+      [classList]="[
+        'form-control ',
+        audioForm.get('author')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="author"
+      placeholder="author..."
+    />
+    <span
+      *ngIf="audioForm.get('author')?.hasError('required')"
+      class="text-danger"
+    >
+      Author is Required
+    </span>
+    <span
+      *ngIf="audioForm.get('author')?.hasError('maxlength')"
+      class="text-danger"
+    >
+      You have reached to maximum limit of symbols. Author's max length is 25
+      symbols
+    </span>
+  </div>
+  <div class="input-group">
+    <input
+      type="file"
+      formControlName="src"
+      [classList]="[
+        'form-control ',
+        audioForm.get('author')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      (change)="onImagePicked($event)"
+    />
+  </div>
+  <span *ngIf="audioForm.get('src')?.hasError('required')" class="text-danger">
+    Audio File is Required
+  </span>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Close
+    </button>
+    <button
+      [disabled]="audioForm.invalid"
+      type="submit"
+      class="btn btn-primary"
+    >
+      Add
+    </button>
+  </div>
+</form>

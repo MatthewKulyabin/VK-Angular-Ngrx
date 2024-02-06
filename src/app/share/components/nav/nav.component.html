@@ -8,13 +8,9 @@
   <hr />
   <ul class="nav nav-pills flex-column mb-auto">
     <li>
-      <a routerLink="/profile" [class]="getClass('/profile')"> Profile </a>
-    </li>
-    <li>
-      <a routerLink="/login" [class]="getClass('/login')"> Login </a>
-    </li>
-    <li>
-      <a routerLink="/signup" [class]="getClass('/signup')"> SignUp </a>
+      <a [routerLink]="currentUserRoute" [class]="getClass(currentUserRoute)">
+        Profile
+      </a>
     </li>
     <li>
       <a routerLink="/audio" [class]="getClass('/audio')"> Audio </a>

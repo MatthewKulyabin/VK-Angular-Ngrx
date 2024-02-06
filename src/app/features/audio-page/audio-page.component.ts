@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import * as AudioActions from '../../share/state/audio/actions';
 import { LocalStorageService } from 'src/app/share/services/local.storage.service';
 import { AppStateInterface } from 'src/app/share/state/app-state-interface';
-import { audioSelectorByUserId } from 'src/app/share/state/audio/selectors';
+import {
+  audioSelectorByName,
+  audioSelectorByUserId,
+} from 'src/app/share/state/audio/selectors';
 import { AudioInterface } from 'src/app/share/types/audio-interface';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-audio-page',
@@ -17,10 +20,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class AudioPageComponent {
   audioListByUserId$: Observable<AudioInterface[]>;
 
-  audioForm: FormGroup;
-
-  src!: any;
-  filename = '';
+  foundAudio$!: Observable<AudioInterface[]> | null;
+  openResult: boolean = false;
+  searchForm: FormGroup;
 
   openModal: boolean = false;
 
@@ -28,55 +30,43 @@ export class AudioPageComponent {
     private store: Store<AppStateInterface>,
     private localStorageService: LocalStorageService
   ) {
-    this.store.dispatch(AudioActions.getAudio());
+    store.dispatch(AudioActions.getAudio());
 
-    this.audioForm = new FormGroup({
-      title: new FormControl('', {
-        validators: [Validators.required, Validators.maxLength(25)],
-      }),
-      author: new FormControl('', {
-        validators: [Validators.required, Validators.maxLength(25)],
-      }),
-      src: new FormControl<any>(null, { validators: [Validators.required] }),
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
     });
 
-    this.audioListByUserId$ = store.pipe(
-      select(audioSelectorByUserId(this.localStorageService.getCurrentUserId()))
+    this.audioListByUserId$ = store.select(
+      audioSelectorByUserId(localStorageService.getCurrentUserId())
     );
+  }
+
+  chooseFollowerAudio(id: number): void {
+    this.audioListByUserId$ = this.store.select(audioSelectorByUserId(id));
+  }
+
+  chooseMyAudio(): void {
+    this.audioListByUserId$ = this.store.select(
+      audioSelectorByUserId(this.localStorageService.getCurrentUserId())
+    );
+  }
+
+  closeResult(): void {
+    this.openResult = false;
+    this.foundAudio$ = null;
+  }
+
+  showResult(): void {
+    if (this.searchForm.value.search) {
+      this.foundAudio$ = this.store.select(
+        audioSelectorByName(this.searchForm.value.search)
+      );
+    }
+    this.openResult = true;
   }
 
   playAudio(src: string): string {
     return src;
-  }
-
-  addNewAudio(): void {
-    console.log('Add New Audio');
-  }
-
-  onImagePicked(event: Event): void {
-    let file: any = event.target;
-    this.src = file.files[0];
-    console.log(this.src);
-  }
-
-  submit(): void {
-    this.filename = this.src?.name;
-    const formData = new FormData();
-    formData.append('src', this.src);
-
-    const audio: AudioInterface = {
-      id: Date.now(),
-      title: this.audioForm.value.title,
-      author: this.audioForm.value.author,
-      userId: this.localStorageService.getCurrentUserId(),
-      src: formData,
-    };
-
-    // console.log(audio, audio.id, audio.src);
-    this.store.dispatch(AudioActions.addAudio({ audio }));
-    this.store.dispatch(
-      AudioActions.patchSrc({ id: audio.id, src: audio.src })
-    );
   }
 
   closeModal(): void {

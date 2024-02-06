@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import * as UsersActions from './share/state/users/actions';
+import * as FollowersActions from './share/state/followers/actions';
 import { AppStateInterface } from './share/state/app-state-interface';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,9 @@ import { Store } from '@ngrx/store';
 export class AppComponent implements OnInit {
   title = 'vk';
 
-  constructor(private store: Store<AppStateInterface>) {}
+  constructor(private store: Store<AppStateInterface>) {
+    store.dispatch(FollowersActions.getFollowers());
+  }
 
   ngOnInit(): void {
     this.store.dispatch(UsersActions.getUsers());

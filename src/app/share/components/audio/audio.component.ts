@@ -2,10 +2,11 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Input,
   OnDestroy,
   ViewChild,
 } from '@angular/core';
+
+import { playAudioParams } from './playAudioParams.interface';
 
 @Component({
   selector: 'app-audio',
@@ -15,7 +16,7 @@ import {
 export class AudioComponent implements AfterViewInit, OnDestroy {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef;
   @ViewChild('time') time!: ElementRef;
-  @ViewChild('length') length!: ElementRef;
+  @ViewChild('length') length!: any;
   @ViewChild('timeline') timeline!: ElementRef;
   @ViewChild('volumeSlider') volumeSlider!: ElementRef;
   @ViewChild('volumePercentage') volumePercentage!: ElementRef;
@@ -28,13 +29,19 @@ export class AudioComponent implements AfterViewInit, OnDestroy {
   private currentTimeInterval: any;
   audio: HTMLAudioElement = new Audio('');
 
+  audioTitle!: string;
+
   ngAfterViewInit(): void {
     this.audio.addEventListener(
       'loadeddata',
       () => {
-        this.time.nativeElement.textContent = this.audio.duration;
-        this.length.nativeElement.textContent = this.audio.duration;
-        this.audio.volume = 0.3;
+        this.length.nativeElement.textContent = this.parseTime(
+          this.audio.duration
+        );
+        this.audio.volume = 0.01;
+
+        playBtn.classList.remove('pause');
+        playBtn.classList.add('play');
       },
       false
     );
@@ -70,7 +77,6 @@ export class AudioComponent implements AfterViewInit, OnDestroy {
       this.current.nativeElement.textContent = this.getTimeCodeFrom(
         this.audio.currentTime
       );
-      console.log('INTERVAL');
     }, 500);
 
     const playBtn = this.togglePlay.nativeElement;
@@ -103,12 +109,10 @@ export class AudioComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  getTimeCodeFrom(num: number): string {
-    let seconds = num;
-    let minutes = seconds / 60;
-    seconds -= minutes * 60;
-    const hours = minutes / 60;
-    minutes -= hours * 60;
+  getTimeCodeFrom(time: number): string {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = Math.floor((time % 3600) % 60);
 
     if (hours === 0)
       return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
@@ -117,11 +121,24 @@ export class AudioComponent implements AfterViewInit, OnDestroy {
     )}`;
   }
 
-  onChooseAudio(src: string): void {
-    this.audio.src = src;
+  onChooseAudio(params: playAudioParams): void {
+    this.audio.src = params.src;
+    this.audioTitle = params.title;
   }
 
   ngOnDestroy(): void {
     clearInterval(this.currentTimeInterval);
+  }
+
+  parseTime(time: number): string {
+    const h = Math.floor(time / 3600);
+    const m = Math.floor((time % 3600) / 60);
+    const s = Math.floor((time % 3600) % 60);
+
+    const hDisplay = h > 0 ? h + (h == 1 ? ':' : ':') : '';
+    const mDisplay = m > 0 ? m + (m == 1 ? ':' : ':') : '';
+    const sDisplay = s > 0 ? s + (s == 1 ? ':' : '') : '';
+
+    return hDisplay + mDisplay + sDisplay;
   }
 }

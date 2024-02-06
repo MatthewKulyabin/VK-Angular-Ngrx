@@ -1,6 +1,15 @@
 <img
+  *ngIf="src"
   [class]="class"
   [src]="src"
+  [alt]="alt"
+  [width]="width"
+  [height]="height"
+/>
+<img
+  *ngIf="!src"
+  [class]="class"
+  src="/assets/img/profile-icon.png"
   [alt]="alt"
   [width]="width"
   [height]="height"

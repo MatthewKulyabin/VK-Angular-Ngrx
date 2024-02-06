@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
+
 import { UserInterface } from '../types/user-interface';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +18,6 @@ export class UsersService {
   }
 
   patchPhoto(userId: number, photo: FormData): Observable<UserInterface> {
-    console.log('PostsService', userId);
     return this.http.patch<UserInterface>(this.usersApi + userId, photo);
   }
 

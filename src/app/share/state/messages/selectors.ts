@@ -1,20 +1,21 @@
 import { createSelector } from '@ngrx/store';
+
 import { AppStateInterface } from '../app-state-interface';
 
-export const selectFeature = (state: AppStateInterface) => state.messages;
+export const selectMessages = (state: AppStateInterface) => state.messages;
 
 export const messagesIsLoadingSelector = createSelector(
-  selectFeature,
+  selectMessages,
   (state) => state.isLoading
 );
 
 export const messageSelectorById = (messageId: number) =>
-  createSelector(selectFeature, (state) =>
+  createSelector(selectMessages, (state) =>
     state.messages.find((message) => message.id === messageId)
   );
 
 export const messagesSelectorByUserId = (userId: number) =>
-  createSelector(selectFeature, (state) => {
+  createSelector(selectMessages, (state) => {
     const sentMessages = state.messages.filter(
       (messages) => messages.userId === userId
     );
@@ -25,9 +26,25 @@ export const messagesSelectorByUserId = (userId: number) =>
   });
 
 export const messagesSelectorDiolog = (userId: number, receiverId: number) =>
-  createSelector(selectFeature, (state) =>
-    state.messages.filter(
-      (message) =>
-        message.userId === userId && message.receiverId === receiverId
-    )
+  createSelector(selectMessages, (state) =>
+    state.messages.filter((message) => {
+      return (
+        (message.userId === userId && message.receiverId === receiverId) ||
+        (message.userId === receiverId && message.receiverId === userId)
+      );
+    })
+  );
+
+export const messagesLatestSelector = (userId: number, receiverId: number) =>
+  createSelector(
+    selectMessages,
+    messagesSelectorDiolog(userId, receiverId),
+    (state, messages) => {
+      return {
+        lastMessage: messages[messages.length - 1].message,
+        lastMessageTime: new Date(
+          messages[messages.length - 1].publish_date
+        ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+    }
   );

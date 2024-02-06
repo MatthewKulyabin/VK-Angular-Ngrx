@@ -1,0 +1,34 @@
+<form [formGroup]="messageForm" novalidate (ngSubmit)="sendMessage()">
+  <div class="mb-3">
+    <label for="message" class="col-form-label text-left"> Message: </label>
+    <textarea
+      formControlName="message"
+      [classList]="[
+        'form-control ',
+        messageForm.get('message')?.invalid
+          ? 'border border-danger'
+          : 'border border-info'
+      ]"
+      id="message"
+      placeholder="Message..."
+      rows="10"
+    ></textarea>
+    <span
+      *ngIf="messageForm.get('message')?.getError('required')"
+      class="text-danger"
+    >
+      Message is required
+    </span>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-secondary"
+      (click)="closeMessageModal()"
+    >
+      Close
+    </button>
+    <button type="submit" class="btn btn-primary">Send</button>
+  </div>
+</form>

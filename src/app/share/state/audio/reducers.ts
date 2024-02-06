@@ -78,5 +78,15 @@ export const reducers = createReducer(
     ...state,
     error: action.error,
     isLoading: false,
+  })),
+
+  // [Audio] Delete Audio by UserId
+  on(AudioActions.deleteAudioByUserIdSuccess, (state, action) => ({
+    ...state,
+    audio: [...state.audio.filter((audio) => audio.userId !== action.userId)],
+  })),
+  on(AudioActions.deleteAudioByUserIdFailure, (state, action) => ({
+    ...state,
+    error: action.error,
   }))
 );

@@ -5,6 +5,9 @@ import { Observable, of } from 'rxjs';
 import * as AudioActions from '../../../state/audio/actions';
 import { AppStateInterface } from 'src/app/share/state/app-state-interface';
 import { AudioInterface } from 'src/app/share/types/audio-interface';
+import { userNameSelectorById } from 'src/app/share/state/users/selectors';
+import { LocalStorageService } from 'src/app/share/services/local.storage.service';
+import { playAudioParams } from '../playAudioParams.interface';
 
 @Component({
   selector: 'app-audio-list',
@@ -12,17 +15,24 @@ import { AudioInterface } from 'src/app/share/types/audio-interface';
   styleUrls: ['./audio-list.component.scss'],
 })
 export class AudioListComponent {
-  @Input() audioList: Observable<AudioInterface[]> = of([]);
-  @Output() chooseAudio: EventEmitter<string> = new EventEmitter();
+  @Input() audioList: Observable<AudioInterface[]> | null = of([]);
+  @Output() chooseAudio: EventEmitter<playAudioParams> = new EventEmitter();
+  userNameSelectorById = userNameSelectorById;
 
-  constructor(private store: Store<AppStateInterface>) {}
+  constructor(
+    protected store: Store<AppStateInterface>,
+    private localStorageService: LocalStorageService
+  ) {}
 
-  playAudio(src: string): void {
-    console.log(src);
-    this.chooseAudio.emit(src);
+  playAudio(params: playAudioParams): void {
+    this.chooseAudio.emit({ src: params.src, title: params.title });
   }
 
   deleteAudio(id: number): void {
     this.store.dispatch(AudioActions.deleteAudio({ id }));
+  }
+
+  isAudioOfCurrentUser(userId: number): boolean {
+    return this.localStorageService.getCurrentUserId() === userId;
   }
 }

@@ -1,0 +1,50 @@
+.h6,
+h6 {
+  font-size: 1.175rem;
+}
+
+.fs-13 {
+  font-size: 13px !important;
+}
+
+.fs-15 {
+  font-size: 15px !important;
+}
+
+.fs-12 {
+  font-size: 12px !important;
+}
+
+.left-chat-message {
+  position: relative;
+  margin: 0 0 0 10px;
+  background: #fff;
+  width: fit-content;
+  max-width: 60%;
+  padding: 0.7rem 1rem;
+  border-radius: 0.357rem;
+  -webkit-box-shadow: 0 4px 8px 0 rgb(34 41 47 / 3%);
+  box-shadow: 0 4px 8px 0 rgb(34 41 47 / 3%);
+}
+
+.right-chat-message {
+  position: relative;
+  margin: 0 10px 0 0;
+  color: #fff;
+  width: fit-content;
+  max-width: 60%;
+  padding: 0.7rem 1rem;
+  border-radius: 0.357rem;
+  -webkit-box-shadow: 0 4px 8px 0 rgb(34 41 47 / 12%);
+  box-shadow: 0 4px 8px 0 rgb(34 41 47 / 12%);
+}
+
+.fs-19 {
+  font-size: 19px !important;
+}
+
+.left-chat-message,
+.right-chat-message {
+  padding: 0.5rem 1rem;
+  max-width: 47%;
+}

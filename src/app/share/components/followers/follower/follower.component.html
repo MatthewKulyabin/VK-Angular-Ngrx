@@ -1,0 +1,15 @@
+<div
+  role="button"
+  class="text-center mb-3 position-relative"
+  (click)="onChoose(followerUserId)"
+>
+  <app-avatar
+    [src]="(user$ | async)?.photo"
+    alt="Profile Icon"
+    class="rounded-circle avatar-xxl"
+  ></app-avatar>
+
+  <h5 class="card-title center">
+    {{ (user$ | async)?.name }}
+  </h5>
+</div>

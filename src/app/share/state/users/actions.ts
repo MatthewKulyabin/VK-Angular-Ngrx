@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+
 import { UserInterface } from '../../types/user-interface';
 
 // [Users] Get Users

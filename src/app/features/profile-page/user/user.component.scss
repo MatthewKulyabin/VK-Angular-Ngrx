@@ -1,0 +1,24 @@
+// @import "mdb-angular-ui-kit/assets/scss/mdb.scss";
+.avatar-xxl {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+}
+
+.avatar-profile {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+
+.avatar-sm {
+  height: calc(4em + 1.2rem) !important;
+  width: calc(4em + 1.2rem) !important;
+  object-fit: cover;
+}
+
+.dropdown-shadow {
+  -webkit-box-shadow: 7px 7px 2px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 7px 7px 2px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 50px 5px rgba(50, 50, 50, 0.75);
+}
