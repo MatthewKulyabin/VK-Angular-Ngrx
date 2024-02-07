@@ -1,6 +1,6 @@
 # VK-Angular-Ngrx
 
-This project had inspiration to be build from Russian social media website - https://vk.com. The project is written with [Angular Framework](https://angular.io/) help. The purpose of VK-Anular-Ngrx was to show the power of Angular Framework and [Ngrx state managment](https://ngrx.io/). The above-mentioned tools are not the only ones which were used in this project, VK-Anular-Ngrx is written with [bootstrap](https://getbootstrap.com/), [bootstrap-icons](https://icons.getbootstrap.com/); BackEnd part of the application is written with [json-server](https://www.npmjs.com/package/json-server) and [json-server-uploader](https://www.npmjs.com/package/json-server-uploader) help.
+This project had inspiration to be build from Russian social media website - https://vk.com. The project is written with [Angular Framework](https://angular.io/) help. The purpose of VK-Angular-Ngrx was to show the power of Angular Framework and [Ngrx state managment](https://ngrx.io/). The above-mentioned tools are not the only ones which were used in this project, VK-Angular-Ngrx is written with [bootstrap](https://getbootstrap.com/), [bootstrap-icons](https://icons.getbootstrap.com/); BackEnd part of the application is written with [json-server](https://www.npmjs.com/package/json-server) and [json-server-uploader](https://www.npmjs.com/package/json-server-uploader) help.
 
 ## Guidelines for running VK-Angular-Ngrx
 
