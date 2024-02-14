@@ -35,7 +35,7 @@ export class MessageLeftSideComponent {
       .subscribe(
         (users) =>
           (this.foundUsers = users.filter((user) =>
-            user.name
+            user?.name
               .toLowerCase()
               .includes(this.searchForm.value.search.toLowerCase())
           ))
