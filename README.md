@@ -1,6 +1,5 @@
 # VK-Angular-Ngrx
 
-<<<<<<< HEAD
 ## Navigation
 
 - [VK-Angular-Ngrx](#vk-angular-ngrx)
